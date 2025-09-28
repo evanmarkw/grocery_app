@@ -1,25 +1,17 @@
 <p-toolbar class="mb-4">
   <div class="p-toolbar-group-start">
-    <h2>{{ title }}</h2>
+    <div class="logo-section">
+      <img src="assets/images/0_168_Asian_Mart_Logo.jpg"
+           alt="{{ title }}"
+           class="logo-image">
+      <h2 class="logo-text">{{ title }}</h2>
+    </div>
   </div>
   <div class="p-toolbar-group-end">
     <p-button
-      label="Home"
-      icon="pi pi-home"
-      class="p-button-text"
-      routerLink="/">
-    </p-button>
-    <p-button
-      label="Products"
-      icon="pi pi-list"
-      class="p-button-text"
-      routerLink="/products">
-    </p-button>
-    <p-button
-      label="Cart"
-      icon="pi pi-shopping-cart"
-      class="p-button-text"
-      routerLink="/cart">
+      label="Login"
+      icon="pi pi-user"
+      class="p-button-outlined login-btn">
     </p-button>
   </div>
 </p-toolbar>
