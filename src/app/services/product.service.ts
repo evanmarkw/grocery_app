@@ -34,4 +34,19 @@ export class ProductService {
       map(data => [...new Set(data.products.map(p => p.category))])
     );
   }
+
+  getProductsGroupedByCategory(): Observable<{ [category: string]: Product[] }> {
+    return this.http.get<ProductData>('products.json').pipe(
+      map(data => {
+        const grouped: { [category: string]: Product[] } = {};
+        data.products.forEach(product => {
+          if (!grouped[product.category]) {
+            grouped[product.category] = [];
+          }
+          grouped[product.category].push(product);
+        });
+        return grouped;
+      })
+    );
+  }
 }

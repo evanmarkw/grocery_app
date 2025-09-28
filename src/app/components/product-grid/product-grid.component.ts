@@ -11,6 +11,8 @@ import { ProductService } from '../../services/product.service';
 export class ProductGridComponent implements OnInit {
   allProducts: Product[] = [];
   filteredProducts: Product[] = [];
+  productsByCategory: { [category: string]: Product[] } = {};
+  categoryKeys: string[] = [];
   searchTerm: string = '';
   loading = true;
 
@@ -21,16 +23,19 @@ export class ProductGridComponent implements OnInit {
   }
 
   loadProducts() {
-    this.productService.getProducts().subscribe({
-      next: (products) => {
-        this.allProducts = products;
-        this.filteredProducts = products;
+    this.productService.getProductsGroupedByCategory().subscribe({
+      next: (groupedProducts) => {
+        this.productsByCategory = groupedProducts;
+        this.categoryKeys = Object.keys(groupedProducts).sort();
+        this.allProducts = Object.values(groupedProducts).flat();
+        this.filteredProducts = this.allProducts;
         this.loading = false;
       },
       error: (error) => {
         console.error('Error loading products:', error);
         this.loading = false;
-        this.allProducts = [
+        // Fallback data
+        const fallbackProducts = [
           {
             id: 1,
             name: "Frozen Tilapia",
@@ -54,7 +59,10 @@ export class ProductGridComponent implements OnInit {
             description: "Fresh tangerines from Australia"
           }
         ];
-        this.filteredProducts = this.allProducts;
+        this.allProducts = fallbackProducts;
+        this.filteredProducts = fallbackProducts;
+        this.productsByCategory = this.groupProductsByCategory(fallbackProducts);
+        this.categoryKeys = Object.keys(this.productsByCategory);
       }
     });
   }
@@ -90,5 +98,45 @@ export class ProductGridComponent implements OnInit {
 
   onImageError(event: any) {
     event.target.src = 'assets/images/placeholder.jpg';
+  }
+
+  private groupProductsByCategory(products: Product[]): { [category: string]: Product[] } {
+    const grouped: { [category: string]: Product[] } = {};
+    products.forEach(product => {
+      if (!grouped[product.category]) {
+        grouped[product.category] = [];
+      }
+      grouped[product.category].push(product);
+    });
+    return grouped;
+  }
+
+  getFilteredProductsByCategory(): { [category: string]: Product[] } {
+    if (!this.searchTerm.trim()) {
+      return this.productsByCategory;
+    }
+
+    const filtered: { [category: string]: Product[] } = {};
+    const searchLower = this.searchTerm.toLowerCase();
+
+    Object.keys(this.productsByCategory).forEach(category => {
+      const categoryProducts = this.productsByCategory[category].filter(product =>
+        product.name.toLowerCase().includes(searchLower) ||
+        (product.other_names && product.other_names.some(name =>
+          name.toLowerCase().includes(searchLower)
+        ))
+      );
+
+      if (categoryProducts.length > 0) {
+        filtered[category] = categoryProducts;
+      }
+    });
+
+    return filtered;
+  }
+
+  getFilteredCategoryKeys(): string[] {
+    const filteredCategories = this.getFilteredProductsByCategory();
+    return Object.keys(filteredCategories).sort();
   }
 }

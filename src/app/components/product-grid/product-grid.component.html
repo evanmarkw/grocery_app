@@ -26,9 +26,13 @@
     <p>No products available.</p>
   </div>
 
-  <!-- Product cards with all info in single panel -->
-  <div *ngIf="!loading && filteredProducts.length > 0" class="product-grid">
-    <div *ngFor="let product of filteredProducts" class="product-card">
+  <!-- Product sections organized by category -->
+  <div *ngIf="!loading && filteredProducts.length > 0" class="category-sections">
+    <div *ngFor="let category of getFilteredCategoryKeys()" class="category-section">
+      <h3 class="category-title">{{ category }}</h3>
+
+      <div class="product-grid">
+        <div *ngFor="let product of getFilteredProductsByCategory()[category]" class="product-card">
       <div class="product-info-section">
         <div class="product-header">
           <!-- Image displayed where product name was -->
@@ -75,13 +79,15 @@
           <p class="description">{{ product.description }}</p>
         </div>
 
-        <div class="product-actions">
-          <button class="add-to-cart-btn" [disabled]="!product.price">
-            <span class="cart-icon">🛒</span>
-            Add to Cart
-          </button>
+          <div class="product-actions">
+            <button class="add-to-cart-btn" [disabled]="!product.price">
+              <span class="cart-icon">🛒</span>
+              Add to Cart
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
