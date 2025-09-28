@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -15,16 +16,19 @@ import { InputTextModule } from 'primeng/inputtext';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { routes } from './app.routes';
+import { ProductGridComponent } from './components/product-grid/product-grid.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    ProductGridComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    HttpClientModule,
     RouterModule.forRoot(routes),
     ButtonModule,
     ToolbarModule,

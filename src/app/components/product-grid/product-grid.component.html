@@ -1,0 +1,87 @@
+<div class="product-grid-container">
+  <h2 class="grid-title">Weekly Specials</h2>
+
+  <!-- Search input -->
+  <div class="search-container">
+    <div class="search-input-wrapper">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        placeholder="Search products by name..."
+        class="search-input">
+      <span class="search-icon">🔍</span>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <p>Loading products...</p>
+  </div>
+
+  <div *ngIf="!loading && filteredProducts.length === 0 && searchTerm" class="no-products-container">
+    <p>No products found matching "{{ searchTerm }}"</p>
+  </div>
+
+  <div *ngIf="!loading && allProducts.length === 0 && !searchTerm" class="no-products-container">
+    <p>No products available.</p>
+  </div>
+
+  <!-- Product cards with all info in single panel -->
+  <div *ngIf="!loading && filteredProducts.length > 0" class="product-grid">
+    <div *ngFor="let product of filteredProducts" class="product-card">
+      <div class="product-info-section">
+        <div class="product-header">
+          <!-- Image displayed where product name was -->
+          <div class="product-image-header">
+            <img [src]="getImagePath(product.image_filename)"
+                 [alt]="product.name"
+                 class="product-image-inline"
+                 (error)="onImageError($event)">
+
+            <!-- Promotion badge if exists -->
+            <div *ngIf="hasPromotion(product)" class="promotion-badge">
+              {{ product.promotion }}
+            </div>
+          </div>
+
+          <h3 class="product-name">{{ product.name }}</h3>
+          <div *ngIf="product.other_names && product.other_names.length > 0" class="other-names">
+            <span *ngFor="let name of product.other_names; let last = last" class="other-name">
+              {{ name }}<span *ngIf="!last">, </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="product-details">
+          <div class="category-row">
+            <span class="category-tag">{{ product.category }}</span>
+          </div>
+
+          <div class="price-row" *ngIf="product.price">
+            <span class="price">{{ formatPrice(product) }}</span>
+            <span *ngIf="product.unit" class="unit">/ {{ product.unit }}</span>
+            <span *ngIf="product.original_price"
+                  class="original-price">${{ product.original_price.toFixed(2) }}</span>
+          </div>
+
+          <div *ngIf="product.promotion_end" class="promotion-end">
+            <small>{{ product.promotion_end }}</small>
+          </div>
+
+          <div *ngIf="product.package_size" class="package-size">
+            Package: {{ product.package_size }}
+          </div>
+
+          <p class="description">{{ product.description }}</p>
+        </div>
+
+        <div class="product-actions">
+          <button class="add-to-cart-btn" [disabled]="!product.price">
+            <span class="cart-icon">🛒</span>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

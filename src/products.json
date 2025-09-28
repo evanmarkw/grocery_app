@@ -1,0 +1,453 @@
+{
+  "scraped_date": "2025-09-25",
+  "source": "https://168asianmart.com/weekly-specials",
+  "total_products": 47,
+  "products": [
+    {
+      "id": 1,
+      "name": "Frozen Tilapia",
+      "other_names": ["冷冻鲫鱼"],
+      "price": 2.98,
+      "currency": "USD",
+      "category": "Frozen Seafood",
+      "promotion": "Until 10/9",
+      "image_filename": "2_FROZEN_TILAPIA______2_98_TIL_10_9_jpeg.jpg",
+      "description": "Frozen Tilapia fish"
+    },
+    {
+      "id": 2,
+      "name": "Australia Tangerine",
+      "other_names": ["澳洲橘子"],
+      "price": 0.98,
+      "currency": "USD",
+      "category": "Fresh Produce",
+      "unit": "lb",
+      "image_filename": "3______AUSTRALIA_TANGERINE_0_98_jpeg.jpg",
+      "description": "Fresh tangerines from Australia"
+    },
+    {
+      "id": 3,
+      "name": "Green Seedless Grapes",
+      "other_names": ["无籽青提"],
+      "price": 0.98,
+      "currency": "USD",
+      "category": "Fresh Produce",
+      "unit": "lb",
+      "image_filename": "4______GREEN_SEEDLESS_GRAPES_0_98_jpeg.jpg",
+      "description": "Fresh green seedless grapes"
+    },
+    {
+      "id": 4,
+      "name": "Kanzaki Egg Tart Shell",
+      "other_names": ["KANZAKI 速冻蛋挞皮"],
+      "category": "Frozen Pastry",
+      "image_filename": "5_KANZAKI_______jpeg.jpg",
+      "description": "Frozen egg tart shells"
+    },
+    {
+      "id": 5,
+      "name": "Lao Gan Ma Chili Oil",
+      "other_names": ["老干妈油辣椒"],
+      "promotion": "Buy 1 Get 1 Free",
+      "promotion_end": "Until 10/1",
+      "category": "Condiments",
+      "image_filename": "6______B1G1________TIL_10_1_jpeg.jpg",
+      "description": "Famous Chinese chili oil sauce"
+    },
+    {
+      "id": 6,
+      "name": "Shin Ramen 10-bag Case",
+      "price": 9.98,
+      "currency": "USD",
+      "category": "Instant Noodles",
+      "package_size": "10 bags",
+      "image_filename": "7_SHIN_RAMEN_10BAGS_CASE_9_98_CONT__jpeg.jpg",
+      "description": "Korean instant ramen noodles case"
+    },
+    {
+      "id": 7,
+      "name": "Vietnamese Red Pomelo",
+      "other_names": ["越南青皮红柚"],
+      "price": 1.88,
+      "currency": "USD",
+      "category": "Fresh Produce",
+      "unit": "lb",
+      "image_filename": "8_LB_VIETNAMESE_RED_POMELO________1_88_jpeg.jpg",
+      "description": "Fresh Vietnamese red pomelo"
+    },
+    {
+      "id": 8,
+      "name": "Fragrant Pear",
+      "other_names": ["新疆香梨"],
+      "price": 0.98,
+      "currency": "USD",
+      "category": "Fresh Produce",
+      "unit": "lb",
+      "image_filename": "9_fragrant_pear______0_98_jpeg.jpg",
+      "description": "Xinjiang fragrant pears"
+    },
+    {
+      "id": 9,
+      "name": "Enoki Mushrooms 200g",
+      "other_names": ["金针菇"],
+      "price": 0.98,
+      "currency": "USD",
+      "category": "Fresh Produce",
+      "package_size": "200g",
+      "image_filename": "10_ENOKI_200G_____0_98_jpeg.jpg",
+      "description": "Fresh enoki mushrooms"
+    },
+    {
+      "id": 10,
+      "name": "Fresh Lychee",
+      "other_names": ["玉荷包荔枝"],
+      "price": 1.98,
+      "currency": "USD",
+      "category": "Fresh Produce",
+      "unit": "lb",
+      "image_filename": "11_______FRESH_LYCHEE_1_98_jpeg.jpg",
+      "description": "Fresh lychee fruit"
+    },
+    {
+      "id": 11,
+      "name": "Osmanthus & Brown Sugar Rice Cakes",
+      "other_names": ["桂花方糕_红糖方糕"],
+      "promotion": "2 for $11.98",
+      "promotion_end": "Until 9/25",
+      "category": "Desserts",
+      "image_filename": "12_2_FOR_11_98___________TIL_9_25_jpeg.jpg",
+      "description": "Traditional Chinese rice cakes"
+    },
+    {
+      "id": 12,
+      "name": "ITO Facial Cleansing Towel",
+      "promotion": "2 for $11.98",
+      "promotion_end": "Continues 10/2",
+      "category": "Beauty & Personal Care",
+      "image_filename": "13_ITO_FACIAL_CLEANSING_TOWEL_2_FOR_11_98_CONT__10_2_jpeg.jpg",
+      "description": "Japanese facial cleansing towels"
+    },
+    {
+      "id": 13,
+      "name": "Fritillaria Bulb 8oz Box",
+      "other_names": ["联牌 盒装川贝"],
+      "price": 23.98,
+      "currency": "USD",
+      "category": "Traditional Medicine",
+      "package_size": "8oz",
+      "image_filename": "14________8OZ_23_98_CONT__jpeg.jpg",
+      "description": "Traditional Chinese medicine ingredient"
+    },
+    {
+      "id": 14,
+      "name": "Wei-Chuan Rice Bowl",
+      "promotion": "2 for $11.98",
+      "promotion_end": "Until 9/25",
+      "category": "Ready-to-Eat",
+      "image_filename": "15_3_WEI_CHUAN_RICE_BOWL_2_FOR_11_98_TIL_9_25_jpeg.jpg",
+      "description": "Taiwanese instant rice bowl"
+    },
+    {
+      "id": 15,
+      "name": "Wei-Chuan Noodle Bowl",
+      "promotion": "2 for $13.98",
+      "promotion_end": "Until 9/25",
+      "category": "Ready-to-Eat",
+      "image_filename": "16_4_WEI_CHUAN_NOODLE_BOWL_2_FOR_13_98_TIL_9_25_jpeg.jpg",
+      "description": "Taiwanese instant noodle bowl"
+    },
+    {
+      "id": 16,
+      "name": "Nanxiang Steamed Buns",
+      "other_names": ["梅林南翔精白馒头"],
+      "promotion": "2 for $11.98",
+      "category": "Frozen Food",
+      "image_filename": "17__________2_FOR__11_98_CONT__jpeg.jpg",
+      "description": "Traditional Chinese steamed buns"
+    },
+    {
+      "id": 17,
+      "name": "HSU's Large Ginseng",
+      "price": 89.98,
+      "currency": "USD",
+      "category": "Traditional Medicine",
+      "image_filename": "18_7979_HSU_S_LARGE_GINSENG_89_98_jpeg.jpg",
+      "description": "Premium ginseng supplement"
+    },
+    {
+      "id": 18,
+      "name": "Dried Alaska Wild Sea Cucumber",
+      "other_names": ["阿拉斯加野生新鲜大红海参"],
+      "price": 108.98,
+      "currency": "USD",
+      "category": "Dried Seafood",
+      "image_filename": "19_7987_dried_Alaska_Wild_Sea_Cucumber______________108_98_jpeg.jpg",
+      "description": "Premium dried wild sea cucumber from Alaska"
+    },
+    {
+      "id": 19,
+      "name": "Frozen Conch Meat",
+      "other_names": ["冷冻响螺肉"],
+      "price": 9.98,
+      "currency": "USD",
+      "category": "Frozen Seafood",
+      "image_filename": "20_3517_______FROZEN_CONCH_MEAT_9_98_jpeg.jpg",
+      "description": "Frozen conch meat"
+    },
+    {
+      "id": 20,
+      "name": "Japanese Dried Scallops Large",
+      "other_names": ["日本干贝大号"],
+      "price": 69.98,
+      "currency": "USD",
+      "category": "Dried Seafood",
+      "image_filename": "21_7995________69_98_jpeg.jpg",
+      "description": "Premium Japanese dried scallops"
+    },
+    {
+      "id": 21,
+      "name": "Vine Tomato",
+      "other_names": ["带支番茄"],
+      "price": 0.98,
+      "currency": "USD",
+      "category": "Fresh Produce",
+      "unit": "lb",
+      "image_filename": "22______VINE_TOMATO_0_98_jpeg.jpg",
+      "description": "Fresh vine tomatoes"
+    },
+    {
+      "id": 22,
+      "name": "EB Croissant Rolls",
+      "other_names": ["可颂铃铃卷"],
+      "category": "Frozen Pastry",
+      "image_filename": "23_EB_______CONT__jpeg.jpg",
+      "description": "Frozen croissant rolls"
+    },
+    {
+      "id": 23,
+      "name": "3-Second Instant Rolls",
+      "other_names": ["更加好 3秒玲玲卷"],
+      "category": "Frozen Food",
+      "image_filename": "24_____3______CONT__jpeg.jpg",
+      "description": "Quick-cooking frozen rolls"
+    },
+    {
+      "id": 24,
+      "name": "Hand-grabbed Pancake",
+      "other_names": ["粮全其美手抓饼"],
+      "promotion": "2 for $8.88",
+      "category": "Frozen Food",
+      "image_filename": "25_2_FOR_8_88_________CONT__jpeg.jpg",
+      "description": "Taiwanese hand-grabbed pancake"
+    },
+    {
+      "id": 25,
+      "name": "Honey Shampoo",
+      "promotion_end": "Until 7/31",
+      "category": "Beauty & Personal Care",
+      "image_filename": "26_3_HONEY_SHAMPOO_TIL_7_31_jpeg.jpg",
+      "description": "Honey-based shampoo"
+    },
+    {
+      "id": 26,
+      "name": "Honey Treatment",
+      "promotion_end": "Until 7/31",
+      "category": "Beauty & Personal Care",
+      "image_filename": "27_2_HONEY_TREATMENT_TIL_7_31_jpeg.jpg",
+      "description": "Honey hair treatment"
+    },
+    {
+      "id": 27,
+      "name": "JM Marine Luminous Moisture Mask",
+      "price": 8.98,
+      "currency": "USD",
+      "category": "Beauty & Personal Care",
+      "image_filename": "28_JM_MARINE_LUMINOUS_MOISTURE_MASK_8_98_CONT__jpeg.jpg",
+      "description": "Korean marine moisture face mask"
+    },
+    {
+      "id": 28,
+      "name": "Asian Best Frozen Whole Quails",
+      "other_names": ["冷冻鹌鹑"],
+      "price": 10.98,
+      "currency": "USD",
+      "category": "Frozen Poultry",
+      "promotion_start": "Starts 6/27",
+      "image_filename": "29_ASIAN_BEST_FROZEN_WHOLE_QUAILS______10_98_STARTS_6_27_jpeg.jpg",
+      "description": "Frozen whole quail birds"
+    },
+    {
+      "id": 29,
+      "name": "Lucido-L Hair Dye - Caramel",
+      "category": "Beauty & Personal Care",
+      "color": "Caramel",
+      "image_filename": "30_LUCIDO_L_HAIR_DYE__CARMEL_jpeg.jpg",
+      "description": "Japanese hair dye in caramel color"
+    },
+    {
+      "id": 30,
+      "name": "Lucido-L Hair Dye - Hazelnut",
+      "category": "Beauty & Personal Care",
+      "color": "Hazelnut",
+      "image_filename": "31_LUCIDO_L_HAIR_DYE__HAZELNUT_jpeg.jpg",
+      "description": "Japanese hair dye in hazelnut color"
+    },
+    {
+      "id": 31,
+      "name": "Sriracha Hot Sauce 17oz Case",
+      "other_names": ["是拉差 辣椒酱"],
+      "package_size": "17oz case",
+      "category": "Condiments",
+      "image_filename": "32________17OZ___CONT__jpeg.jpg",
+      "description": "Case of sriracha hot sauce bottles"
+    },
+    {
+      "id": 32,
+      "name": "Sriracha Hot Sauce 17oz",
+      "other_names": ["是拉差 辣椒酱"],
+      "package_size": "17oz",
+      "category": "Condiments",
+      "image_filename": "33________17OZ_CONT__jpeg.jpg",
+      "description": "Individual sriracha hot sauce bottle"
+    },
+    {
+      "id": 33,
+      "name": "MTT Fish Cake Stuffed Pepper",
+      "other_names": ["鱼饼酿辣椒"],
+      "category": "Frozen Food",
+      "image_filename": "34_MTT_______CONT__jpeg.jpg",
+      "description": "Fish cake stuffed in peppers"
+    },
+    {
+      "id": 34,
+      "name": "Tetsujin Ebi 4L Case",
+      "price": 118.00,
+      "currency": "USD",
+      "category": "Frozen Seafood",
+      "package_size": "4L case",
+      "image_filename": "35_4L_TETSUJIN_EBI_CASE_118_00_2__CONT__jpeg.jpg",
+      "description": "Premium shrimp 4L case"
+    },
+    {
+      "id": 35,
+      "name": "Tetsujin Ebi 3L Case",
+      "price": 99.00,
+      "currency": "USD",
+      "category": "Frozen Seafood",
+      "package_size": "3L case",
+      "image_filename": "36_3L_TETSUJIN_EBI_CASE_99_00_2_CONT__jpeg.jpg",
+      "description": "Premium shrimp 3L case"
+    },
+    {
+      "id": 36,
+      "name": "Blue Crab",
+      "other_names": ["青蟹"],
+      "price": 5.98,
+      "currency": "USD",
+      "original_price": 6.99,
+      "category": "Live Seafood",
+      "unit": "lb",
+      "image_filename": "37_3321_BLUE_CRAB____6_99_5_98_jpeg.jpg",
+      "description": "Fresh live blue crab"
+    },
+    {
+      "id": 37,
+      "name": "Long Hot Pepper",
+      "other_names": ["牛角椒_虎皮椒"],
+      "price": 1.68,
+      "currency": "USD",
+      "category": "Fresh Produce",
+      "unit": "lb",
+      "image_filename": "38_LONG_HOT_PEPPER_________1_68_jpeg.jpg",
+      "description": "Fresh long hot peppers"
+    },
+    {
+      "id": 38,
+      "name": "Double Fish Spring Roll Wrapper",
+      "other_names": ["双鱼牌 网纱春卷皮"],
+      "category": "Frozen Food",
+      "image_filename": "39___________CONT__jpeg.jpg",
+      "description": "Mesh spring roll wrappers"
+    },
+    {
+      "id": 39,
+      "name": "AC Eagle Hunan Stinky Tofu",
+      "other_names": ["鹰牌臭豆腐"],
+      "category": "Refrigerated",
+      "image_filename": "40_______AC_EAGLE_HUNAN_TOFU_CONT__jpeg.jpg",
+      "description": "Traditional Hunan style fermented tofu"
+    },
+    {
+      "id": 40,
+      "name": "Frozen Durian",
+      "price": 3.98,
+      "currency": "USD",
+      "category": "Frozen Fruit",
+      "image_filename": "41_FROZEN_DURIAN_3_98_CONT__jpeg.jpg",
+      "description": "Frozen durian fruit"
+    },
+    {
+      "id": 41,
+      "name": "King Oyster Mushroom",
+      "other_names": ["杏鲍菇"],
+      "price": 1.28,
+      "currency": "USD",
+      "category": "Fresh Produce",
+      "unit": "lb",
+      "image_filename": "42_king_oyster_mushroom_____1_28_jpeg.jpg",
+      "description": "Fresh king oyster mushrooms"
+    },
+    {
+      "id": 42,
+      "name": "Bamboo Tree Rice Vermicelli",
+      "other_names": ["竹树牌米粉"],
+      "category": "Dried Noodles",
+      "image_filename": "43_BAMBOO_TREE_VERMICELLI_______CONT__jpeg.jpg",
+      "description": "Rice vermicelli noodles"
+    },
+    {
+      "id": 43,
+      "name": "Korean Golden Melon",
+      "other_names": ["韩国黄金瓜"],
+      "price": 0.98,
+      "currency": "USD",
+      "category": "Fresh Produce",
+      "unit": "lb",
+      "image_filename": "44_KOREAN_MELON_______0_98_jpeg.jpg",
+      "description": "Korean golden melon"
+    },
+    {
+      "id": 44,
+      "name": "Fresh Ginger",
+      "other_names": ["生姜"],
+      "price": 0.98,
+      "currency": "USD",
+      "category": "Fresh Produce",
+      "unit": "lb",
+      "image_filename": "45_ginger____0_98_jpeg.jpg",
+      "description": "Fresh ginger root"
+    },
+    {
+      "id": 45,
+      "name": "Chilean Seabass Neck",
+      "other_names": ["智利鳕鱼颈"],
+      "price": 7.48,
+      "currency": "USD",
+      "category": "Fresh Seafood",
+      "unit": "lb",
+      "image_filename": "46_3210_______CHILEAN_SEABASS_NECK_7_48_jpeg.jpg",
+      "description": "Fresh Chilean seabass neck cuts"
+    },
+    {
+      "id": 46,
+      "name": "Iceberg Lettuce",
+      "other_names": ["圆生菜"],
+      "price": 0.68,
+      "currency": "USD",
+      "category": "Fresh Produce",
+      "unit": "head",
+      "image_filename": "47_ICEBERG_LETTUCE_____0_68_jpeg.jpg",
+      "description": "Fresh iceberg lettuce head"
+    }
+  ]
+}
