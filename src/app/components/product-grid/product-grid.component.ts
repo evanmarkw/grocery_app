@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../models/product.interface';
+import { Recipe } from '../../models/recipe.interface';
 import { ProductService } from '../../services/product.service';
+import { RecipeService } from '../../services/recipe.service';
 
 @Component({
   selector: 'app-product-grid',
@@ -15,11 +17,18 @@ export class ProductGridComponent implements OnInit {
   categoryKeys: string[] = [];
   searchTerm: string = '';
   loading = true;
+  productRecipes: { [productId: number]: Recipe[] } = {};
+  selectedRecipe: Recipe | null = null;
+  showRecipeModal = false;
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private recipeService: RecipeService
+  ) {}
 
   ngOnInit() {
     this.loadProducts();
+    this.loadRecipes();
   }
 
   loadProducts() {
@@ -138,5 +147,48 @@ export class ProductGridComponent implements OnInit {
   getFilteredCategoryKeys(): string[] {
     const filteredCategories = this.getFilteredProductsByCategory();
     return Object.keys(filteredCategories).sort();
+  }
+
+  loadRecipes() {
+    this.recipeService.getRecipes().subscribe({
+      next: (recipes) => {
+        // Group recipes by product ID
+        recipes.forEach(recipe => {
+          if (!this.productRecipes[recipe.linked_product_id]) {
+            this.productRecipes[recipe.linked_product_id] = [];
+          }
+          this.productRecipes[recipe.linked_product_id].push(recipe);
+        });
+      },
+      error: (error) => {
+        console.error('Error loading recipes:', error);
+      }
+    });
+  }
+
+  hasRecipes(product: Product): boolean {
+    return this.productRecipes[product.id] && this.productRecipes[product.id].length > 0;
+  }
+
+  getRecipesForProduct(product: Product): Recipe[] {
+    return this.productRecipes[product.id] || [];
+  }
+
+  showRecipes(product: Product) {
+    const recipes = this.getRecipesForProduct(product);
+    if (recipes.length === 1) {
+      this.selectedRecipe = recipes[0];
+      this.showRecipeModal = true;
+    } else if (recipes.length > 1) {
+      // For multiple recipes, show the first one for now
+      // Could be enhanced to show a recipe selection modal
+      this.selectedRecipe = recipes[0];
+      this.showRecipeModal = true;
+    }
+  }
+
+  closeRecipeModal() {
+    this.showRecipeModal = false;
+    this.selectedRecipe = null;
   }
 }

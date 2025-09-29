@@ -1,5 +1,5 @@
 <div class="product-grid-container">
-  <h2 class="grid-title">Weekly Specials</h2>
+  <h2 class="grid-title">Welcome to 168 Asian Mart</h2>
 
   <!-- Search input -->
   <div class="search-container">
@@ -84,7 +84,91 @@
               <span class="cart-icon">🛒</span>
               Add to Cart
             </button>
+            <button *ngIf="hasRecipes(product)"
+                    class="recipe-btn"
+                    (click)="showRecipes(product)">
+              <span class="recipe-icon">👨‍🍳</span>
+              Recipe
+            </button>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recipe Modal -->
+  <div *ngIf="showRecipeModal" class="recipe-modal-overlay" (click)="closeRecipeModal()">
+    <div class="recipe-modal" (click)="$event.stopPropagation()" *ngIf="selectedRecipe">
+      <div class="modal-header">
+        <h2>{{ selectedRecipe.name }}</h2>
+        <p class="chinese-name">{{ selectedRecipe.name_chinese }}</p>
+        <button class="close-btn" (click)="closeRecipeModal()">×</button>
+      </div>
+
+      <div class="modal-content">
+        <div class="recipe-meta">
+          <div class="meta-item">
+            <span class="label">Cuisine:</span>
+            <span>{{ selectedRecipe.cuisine }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="label">Difficulty:</span>
+            <span>{{ selectedRecipe.difficulty }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="label">Prep:</span>
+            <span>{{ selectedRecipe.prep_time }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="label">Cook:</span>
+            <span>{{ selectedRecipe.cook_time }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="label">Total:</span>
+            <span>{{ selectedRecipe.total_time }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="label">Servings:</span>
+            <span>{{ selectedRecipe.servings }}</span>
+          </div>
+        </div>
+
+        <div class="recipe-description">
+          <p>{{ selectedRecipe.description }}</p>
+          <p class="chinese-description">{{ selectedRecipe.description_chinese }}</p>
+        </div>
+
+        <div class="recipe-section">
+          <h3>Ingredients</h3>
+          <ul class="ingredients-list">
+            <li *ngFor="let ingredient of selectedRecipe.ingredients">
+              <strong>{{ ingredient.amount }}</strong> {{ ingredient.item }}
+              <span *ngIf="ingredient.notes" class="ingredient-notes">({{ ingredient.notes }})</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="recipe-section">
+          <h3>Instructions</h3>
+          <ol class="instructions-list">
+            <li *ngFor="let instruction of selectedRecipe.instructions">
+              {{ instruction.instruction }}
+            </li>
+          </ol>
+        </div>
+
+        <div class="recipe-section" *ngIf="selectedRecipe.tips && selectedRecipe.tips.length > 0">
+          <h3>Tips</h3>
+          <ul class="tips-list">
+            <li *ngFor="let tip of selectedRecipe.tips">{{ tip }}</li>
+          </ul>
+        </div>
+
+        <div class="recipe-section" *ngIf="selectedRecipe.serving_suggestions && selectedRecipe.serving_suggestions.length > 0">
+          <h3>Serving Suggestions</h3>
+          <ul class="serving-suggestions-list">
+            <li *ngFor="let suggestion of selectedRecipe.serving_suggestions">{{ suggestion }}</li>
+          </ul>
         </div>
       </div>
     </div>
