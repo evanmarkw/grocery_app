@@ -1,0 +1,49 @@
+<div class="login-container flex align-items-center justify-content-center min-h-screen">
+  <p-card header="Store Manager Login" class="login-card">
+    <form (ngSubmit)="onSubmit()" class="flex flex-column gap-3">
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          pInputText
+          [(ngModel)]="credentials.email"
+          name="email"
+          placeholder="Enter your email"
+          class="w-full"
+          [disabled]="loading"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          pInputText
+          [(ngModel)]="credentials.password"
+          name="password"
+          placeholder="Enter your password"
+          class="w-full"
+          [disabled]="loading"
+          required
+        />
+      </div>
+
+      <p-message
+        *ngIf="errorMessage"
+        severity="error"
+        [text]="errorMessage"
+        styleClass="w-full"
+      ></p-message>
+
+      <p-button
+        type="submit"
+        label="Login"
+        [loading]="loading"
+        styleClass="w-full"
+      ></p-button>
+    </form>
+  </p-card>
+</div>

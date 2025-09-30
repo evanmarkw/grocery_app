@@ -1,0 +1,277 @@
+<div class="store-management-container min-h-screen">
+  <p-toolbar>
+    <ng-template pTemplate="start">
+      <div class="flex align-items-center gap-2">
+        <p-button
+          icon="pi pi-arrow-left"
+          (onClick)="goBack()"
+          [text]="true"
+        ></p-button>
+        <span class="text-xl font-bold">Store Management</span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="end">
+      <p-button
+        label="Add Store"
+        icon="pi pi-plus"
+        (onClick)="showAddDialog()"
+      ></p-button>
+    </ng-template>
+  </p-toolbar>
+
+  <div class="p-4">
+    <p-table
+      [value]="stores"
+      [loading]="loading"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} stores"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      styleClass="p-datatable-striped"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>Phone</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-store>
+        <tr>
+          <td>{{ store.code }}</td>
+          <td>{{ store.name }}</td>
+          <td>{{ store.address }}</td>
+          <td>{{ store.city || '-' }}</td>
+          <td>{{ store.phone || '-' }}</td>
+          <td>
+            <p-tag
+              [value]="store.status"
+              [severity]="getStatusSeverity(store.status)"
+            ></p-tag>
+          </td>
+          <td>
+            <p-button
+              icon="pi pi-pencil"
+              (onClick)="showEditDialog(store)"
+              [text]="true"
+              [rounded]="true"
+              severity="info"
+            ></p-button>
+            <p-button
+              icon="pi pi-trash"
+              (onClick)="deleteStore(store)"
+              [text]="true"
+              [rounded]="true"
+              severity="danger"
+            ></p-button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7" class="text-center">No stores found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="displayDialog"
+  [header]="isEditMode ? 'Edit Store' : 'Add Store'"
+  [modal]="true"
+  [style]="{ width: '60vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form class="flex flex-column gap-3">
+    <div class="grid">
+      <div class="col-6">
+        <div class="field">
+          <label for="code">Store Code *</label>
+          <input
+            id="code"
+            type="text"
+            pInputText
+            [(ngModel)]="storeForm.code"
+            name="code"
+            class="w-full"
+            required
+          />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="field">
+          <label for="status">Status *</label>
+          <p-dropdown
+            id="status"
+            [(ngModel)]="storeForm.status"
+            [options]="storeStatusOptions"
+            name="status"
+            placeholder="Select Status"
+            styleClass="w-full"
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="name">Store Name *</label>
+      <input
+        id="name"
+        type="text"
+        pInputText
+        [(ngModel)]="storeForm.name"
+        name="name"
+        class="w-full"
+        required
+      />
+    </div>
+
+    <div class="field">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        pInputTextarea
+        [(ngModel)]="storeForm.description"
+        name="description"
+        rows="2"
+        class="w-full"
+      ></textarea>
+    </div>
+
+    <div class="field">
+      <label for="address">Address *</label>
+      <input
+        id="address"
+        type="text"
+        pInputText
+        [(ngModel)]="storeForm.address"
+        name="address"
+        class="w-full"
+        required
+      />
+    </div>
+
+    <div class="grid">
+      <div class="col-6">
+        <div class="field">
+          <label for="city">City</label>
+          <input
+            id="city"
+            type="text"
+            pInputText
+            [(ngModel)]="storeForm.city"
+            name="city"
+            class="w-full"
+          />
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="field">
+          <label for="state">State</label>
+          <input
+            id="state"
+            type="text"
+            pInputText
+            [(ngModel)]="storeForm.state"
+            name="state"
+            class="w-full"
+          />
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="field">
+          <label for="zipCode">Zip Code</label>
+          <input
+            id="zipCode"
+            type="text"
+            pInputText
+            [(ngModel)]="storeForm.zipCode"
+            name="zipCode"
+            class="w-full"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="col-6">
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input
+            id="phone"
+            type="tel"
+            pInputText
+            [(ngModel)]="storeForm.phone"
+            name="phone"
+            class="w-full"
+          />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="field">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            pInputText
+            [(ngModel)]="storeForm.email"
+            name="email"
+            class="w-full"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="managerName">Manager Name</label>
+      <input
+        id="managerName"
+        type="text"
+        pInputText
+        [(ngModel)]="storeForm.managerName"
+        name="managerName"
+        class="w-full"
+      />
+    </div>
+
+    <div class="flex gap-3">
+      <div class="field">
+        <p-checkbox
+          [(ngModel)]="storeForm.deliveryEnabled"
+          name="deliveryEnabled"
+          [binary]="true"
+          label="Delivery Enabled"
+        ></p-checkbox>
+      </div>
+      <div class="field">
+        <p-checkbox
+          [(ngModel)]="storeForm.pickupEnabled"
+          name="pickupEnabled"
+          [binary]="true"
+          label="Pickup Enabled"
+        ></p-checkbox>
+      </div>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      (onClick)="hideDialog()"
+      severity="secondary"
+    ></p-button>
+    <p-button
+      label="Save"
+      icon="pi pi-check"
+      (onClick)="saveStore()"
+    ></p-button>
+  </ng-template>
+</p-dialog>
