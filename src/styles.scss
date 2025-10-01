@@ -1,40 +1,246 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles and PrimeNG Theme Customization */
 
+// Reset and base styles
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  font-size: 14px;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background-color: #ffffff;
+  background-color: #f8f9fa;
   color: #333333;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
 }
 
+// Main app container
+app-root {
+  display: block;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+// Container utilities
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  background-color: white;
+  min-height: calc(100vh - 80px);
+}
+
+// Typography
 h1, h2, h3, h4, h5, h6 {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   color: #333333;
   font-weight: 700;
+  margin: 0;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
+// Utility classes
 .mb-4 {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem !important;
 }
 
 .p-4 {
-  padding: 1.5rem;
+  padding: 1.5rem !important;
 }
 
 .mx-auto {
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.w-full {
+  width: 100% !important;
+}
+
+// PrimeNG component overrides
+.p-component {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1rem;
+}
+
+// Fix PrimeNG button text
+.p-button {
+  font-family: inherit;
+}
+
+// PrimeNG Card defaults
+.p-card {
+  background: white;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+  .p-card-body {
+    background: white;
+  }
+
+  .p-card-content {
+    background: white;
+  }
+}
+
+// PrimeNG Panel defaults
+.p-panel {
+  background: white;
+
+  .p-panel-header {
+    background: white;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .p-panel-content {
+    background: white;
+  }
+}
+
+// PrimeNG Dialog defaults
+.p-dialog {
+  .p-dialog-content {
+    background: white;
+  }
+}
+
+// PrimeNG Table defaults
+.p-datatable {
+  .p-datatable-header {
+    background: white;
+  }
+
+  .p-datatable-tbody {
+    background: white;
+
+    > tr {
+      background: white;
+
+      &:hover {
+        background: #f8f9fa;
+      }
+    }
+  }
+}
+
+// PrimeNG Menu defaults
+.p-menu {
+  background: white;
+  border: 1px solid #dee2e6;
+
+  .p-menuitem-link {
+    &:hover {
+      background: #f8f9fa;
+    }
+  }
+}
+
+// PrimeNG Input defaults
+.p-inputtext {
+  font-family: inherit;
+}
+
+// PrimeNG Message defaults
+.p-message {
+  margin: 1rem 0;
+}
+
+// Fix toolbar positioning
+.p-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: white !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+// Ensure content area has proper background
+router-outlet + * {
+  display: block;
+  background: white;
+  min-height: calc(100vh - 80px);
+}
+
+// PrimeFlex grid system
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+}
+
+.col,
+[class*="col-"] {
+  padding: 0.5rem;
+}
+
+// Column base
+.col-12 {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+// Responsive columns
+@media screen and (min-width: 768px) {
+  .md\:col-6 {
+    flex: 0 0 auto;
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .lg\:col-4 {
+    flex: 0 0 auto;
+    width: 33.3333%;
+  }
+  .lg\:col-6 {
+    flex: 0 0 auto;
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .xl\:col-4 {
+    flex: 0 0 auto;
+    width: 33.3333%;
+  }
+  .xl\:col-3 {
+    flex: 0 0 auto;
+    width: 25%;
+  }
+}
+
+// Fix any overflow issues
+.p-component-overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+// Ensure dialogs have proper z-index
+.p-dialog-mask {
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 2000;
+}
+
+.p-dialog {
+  z-index: 2001;
+}
+
+// Toast positioning
+.p-toast {
+  z-index: 2100;
+}
+
+// Loading spinner centering
+.p-progress-spinner {
+  margin: 0 auto;
+  display: block;
 }

@@ -19,15 +19,30 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { MessageModule } from 'primeng/message';
+import { PasswordModule } from 'primeng/password';
+import { DividerModule } from 'primeng/divider';
+import { MenuModule } from 'primeng/menu';
+import { TooltipModule } from 'primeng/tooltip';
+import { ToastModule } from 'primeng/toast';
+import { PanelModule } from 'primeng/panel';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ImageModule } from 'primeng/image';
+import { ChipModule } from 'primeng/chip';
+import { TabViewModule } from 'primeng/tabview';
+import { TimelineModule } from 'primeng/timeline';
+import { FieldsetModule } from 'primeng/fieldset';
+import { MessageService } from 'primeng/api';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { routes } from './app.routes';
 import { ProductGridComponent } from './components/product-grid/product-grid.component';
 import { LoginComponent } from './components/login/login.component';
+import { SignupComponent } from './components/signup/signup.component';
 import { ManagerDashboardComponent } from './components/manager-dashboard/manager-dashboard.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { StoreManagementComponent } from './components/store-management/store-management.component';
+import { UserManagementComponent } from './components/user-management/user-management.component';
 
 @NgModule({
   declarations: [
@@ -35,9 +50,11 @@ import { StoreManagementComponent } from './components/store-management/store-ma
     HomeComponent,
     ProductGridComponent,
     LoginComponent,
+    SignupComponent,
     ManagerDashboardComponent,
     ProductManagementComponent,
-    StoreManagementComponent
+    StoreManagementComponent,
+    UserManagementComponent
   ],
   imports: [
     BrowserModule,
@@ -58,9 +75,21 @@ import { StoreManagementComponent } from './components/store-management/store-ma
     InputNumberModule,
     CheckboxModule,
     DropdownModule,
-    MessageModule
+    MessageModule,
+    PasswordModule,
+    DividerModule,
+    MenuModule,
+    TooltipModule,
+    ToastModule,
+    PanelModule,
+    ProgressSpinnerModule,
+    ImageModule,
+    ChipModule,
+    TabViewModule,
+    TimelineModule,
+    FieldsetModule
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

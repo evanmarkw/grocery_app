@@ -1,0 +1,221 @@
+<div class="user-management-container">
+  <div class="header-section">
+    <h2>User Management</h2>
+    <p class="subtitle">Manage user accounts and permissions</p>
+  </div>
+
+  <div class="actions-bar">
+    <div class="search-wrapper">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search users..."
+          [(ngModel)]="searchTerm"
+          (input)="filterUsers()"
+          class="search-input">
+      </span>
+    </div>
+
+    <p-dropdown
+      [options]="roleFilterOptions"
+      [(ngModel)]="selectedRoleFilter"
+      (onChange)="filterUsers()"
+      placeholder="All Roles"
+      optionLabel="label"
+      optionValue="value"
+      [showClear]="true">
+    </p-dropdown>
+  </div>
+
+  <p-table
+    [value]="filteredUsers"
+    [paginator]="true"
+    [rows]="10"
+    [loading]="loading"
+    [rowsPerPageOptions]="[10, 20, 50]"
+    responsiveLayout="scroll"
+    styleClass="users-table">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Joined</th>
+        <th>Last Login</th>
+        <th class="actions-col">Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>
+          <div class="user-name">
+            <span class="avatar">{{ getUserInitials(user) }}</span>
+            <span>{{ user.firstName }} {{ user.lastName }}</span>
+          </div>
+        </td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.phoneNumber || '-' }}</td>
+        <td>
+          <p-tag
+            [value]="getRoleDisplay(user.role)"
+            [severity]="getRoleSeverity(user.role)">
+          </p-tag>
+        </td>
+        <td>
+          <p-tag
+            [value]="user.active ? 'Active' : 'Inactive'"
+            [severity]="user.active ? 'success' : 'danger'">
+          </p-tag>
+        </td>
+        <td>{{ formatDate(user.createdAt) }}</td>
+        <td>{{ user.lastLoginAt ? formatDate(user.lastLoginAt) : 'Never' }}</td>
+        <td class="actions-col">
+          <div class="action-buttons">
+            <p-button
+              icon="pi pi-pencil"
+              [rounded]="true"
+              [text]="true"
+              severity="info"
+              pTooltip="Edit Role"
+              tooltipPosition="top"
+              (onClick)="editUserRole(user)"
+              [disabled]="user.id === currentUser?.id">
+            </p-button>
+
+            <p-button
+              [icon]="user.active ? 'pi pi-lock' : 'pi pi-lock-open'"
+              [rounded]="true"
+              [text]="true"
+              [severity]="user.active ? 'warn' : 'success'"
+              [pTooltip]="user.active ? 'Deactivate' : 'Activate'"
+              tooltipPosition="top"
+              (onClick)="toggleUserStatus(user)"
+              [disabled]="user.id === currentUser?.id">
+            </p-button>
+
+            <p-button
+              icon="pi pi-trash"
+              [rounded]="true"
+              [text]="true"
+              severity="danger"
+              pTooltip="Delete User"
+              tooltipPosition="top"
+              (onClick)="confirmDelete(user)"
+              [disabled]="user.id === currentUser?.id || user.role === 'ADMIN'">
+            </p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="8" class="empty-message">
+          <div class="empty-state">
+            <i class="pi pi-users"></i>
+            <p>No users found</p>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <!-- Role Edit Dialog -->
+  <p-dialog
+    [(visible)]="showRoleDialog"
+    header="Edit User Role"
+    [modal]="true"
+    [style]="{width: '450px'}"
+    [closable]="true">
+
+    <div *ngIf="selectedUser" class="dialog-content">
+      <div class="user-info">
+        <div class="info-row">
+          <label>User:</label>
+          <span>{{ selectedUser.firstName }} {{ selectedUser.lastName }}</span>
+        </div>
+        <div class="info-row">
+          <label>Email:</label>
+          <span>{{ selectedUser.email }}</span>
+        </div>
+        <div class="info-row">
+          <label>Current Role:</label>
+          <p-tag
+            [value]="getRoleDisplay(selectedUser.role)"
+            [severity]="getRoleSeverity(selectedUser.role)">
+          </p-tag>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="newRole">New Role</label>
+        <p-dropdown
+          id="newRole"
+          [options]="roleOptions"
+          [(ngModel)]="newRole"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select a role"
+          styleClass="w-full">
+        </p-dropdown>
+      </div>
+
+      <div class="warning-message" *ngIf="newRole === 'ADMIN'">
+        <i class="pi pi-exclamation-triangle"></i>
+        <span>Warning: Admin users have full system access including user management.</span>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        [text]="true"
+        (onClick)="showRoleDialog = false">
+      </p-button>
+      <p-button
+        label="Update Role"
+        icon="pi pi-check"
+        (onClick)="updateRole()"
+        [disabled]="!newRole || newRole === selectedUser?.role">
+      </p-button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Delete Confirmation Dialog -->
+  <p-dialog
+    [(visible)]="showDeleteDialog"
+    header="Confirm Delete"
+    [modal]="true"
+    [style]="{width: '450px'}">
+
+    <div *ngIf="userToDelete" class="dialog-content">
+      <div class="confirmation-message">
+        <i class="pi pi-exclamation-triangle"></i>
+        <p>Are you sure you want to delete user <strong>{{ userToDelete.firstName }} {{ userToDelete.lastName }}</strong>?</p>
+        <p class="warning-text">This action cannot be undone.</p>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        [text]="true"
+        (onClick)="showDeleteDialog = false">
+      </p-button>
+      <p-button
+        label="Delete"
+        icon="pi pi-trash"
+        severity="danger"
+        (onClick)="deleteUser()">
+      </p-button>
+    </ng-template>
+  </p-dialog>
+</div>

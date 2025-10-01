@@ -35,12 +35,9 @@ export class LoginComponent {
       next: (response) => {
         this.loading = false;
         if (response.token) {
-          // Check if user is store manager or admin
-          if (response.role === 'STORE_MANAGER' || response.role === 'ADMIN') {
-            this.router.navigate(['/manager/dashboard']);
-          } else {
-            this.router.navigate(['/']);
-          }
+          // Always navigate to home after login
+          // User can access manager features from the menu
+          this.router.navigate(['/']);
         } else {
           this.errorMessage = response.message || 'Login failed';
         }
@@ -51,5 +48,9 @@ export class LoginComponent {
         console.error('Login error:', error);
       }
     });
+  }
+
+  continueAsGuest() {
+    this.router.navigate(['/']);
   }
 }

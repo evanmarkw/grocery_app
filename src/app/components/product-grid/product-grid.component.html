@@ -1,177 +1,256 @@
 <div class="product-grid-container">
-  <h2 class="grid-title">Welcome to 168 Asian Mart</h2>
+  <p-panel>
+    <ng-template pTemplate="header">
+      <div class="panel-header">
+        <h2 class="grid-title">Welcome to 168 Asian Mart</h2>
+      </div>
+    </ng-template>
 
-  <!-- Search input -->
-  <div class="search-container">
-    <div class="search-input-wrapper">
-      <input
-        type="text"
-        [(ngModel)]="searchTerm"
-        (input)="onSearchChange()"
-        placeholder="Search products by name..."
-        class="search-input">
-      <span class="search-icon">🔍</span>
+    <!-- Search and filters -->
+    <div class="search-filter-container">
+      <span class="p-input-icon-left search-wrapper">
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="searchTerm"
+          (input)="onSearchChange()"
+          placeholder="Search products by name..."
+          class="search-input">
+      </span>
     </div>
-  </div>
 
-  <div *ngIf="loading" class="loading-container">
-    <p>Loading products...</p>
-  </div>
+    <!-- Loading state -->
+    <div *ngIf="loading" class="loading-container">
+      <p-progressSpinner strokeWidth="4" fill="transparent"></p-progressSpinner>
+      <p>Loading products...</p>
+    </div>
 
-  <div *ngIf="!loading && filteredProducts.length === 0 && searchTerm" class="no-products-container">
-    <p>No products found matching "{{ searchTerm }}"</p>
-  </div>
+    <!-- No results messages -->
+    <p-message
+      *ngIf="!loading && filteredProducts.length === 0 && searchTerm"
+      severity="info"
+      [text]="'No products found matching \"' + searchTerm + '\"'">
+    </p-message>
 
-  <div *ngIf="!loading && allProducts.length === 0 && !searchTerm" class="no-products-container">
-    <p>No products available.</p>
-  </div>
+    <p-message
+      *ngIf="!loading && allProducts.length === 0 && !searchTerm"
+      severity="warn"
+      [text]="'No products available.'">
+    </p-message>
 
-  <!-- Product sections organized by category -->
-  <div *ngIf="!loading && filteredProducts.length > 0" class="category-sections">
-    <div *ngFor="let category of getFilteredCategoryKeys()" class="category-section">
-      <h3 class="category-title">{{ category }}</h3>
+    <!-- Product sections organized by category -->
+    <div *ngIf="!loading && filteredProducts.length > 0" class="category-sections">
+      <div *ngFor="let category of getFilteredCategoryKeys()" class="category-section">
+        <p-divider align="left">
+          <div class="category-divider">
+            <i class="pi pi-tag"></i>
+            <span class="category-title">{{ category }}</span>
+          </div>
+        </p-divider>
 
-      <div class="product-grid">
-        <div *ngFor="let product of getFilteredProductsByCategory()[category]" class="product-card">
-      <div class="product-info-section">
-        <div class="product-header">
-          <!-- Image displayed where product name was -->
-          <div class="product-image-header">
-            <img [src]="getImagePath(product.image_filename)"
-                 [alt]="product.name"
-                 class="product-image-inline"
-                 (error)="onImageError($event)">
+        <p-dataView
+          [value]="getFilteredProductsByCategory()[category]"
+          layout="grid"
+          [paginator]="false">
 
-            <!-- Promotion badge if exists -->
-            <div *ngIf="hasPromotion(product)" class="promotion-badge">
-              {{ product.promotion }}
+          <ng-template let-product pTemplate="gridItem">
+            <div class="col-12 md:col-6 lg:col-4 p-2">
+              <p-card class="product-card">
+                <!-- Product Image -->
+                <ng-template pTemplate="header">
+                  <div class="product-image-container">
+                    <p-image
+                      [src]="getImagePath(product.image_filename)"
+                      [alt]="product.name"
+                      width="100%"
+                      [preview]="true"
+                      (onError)="onImageError($event)">
+                    </p-image>
+
+                    <!-- Promotion badge -->
+                    <p-tag
+                      *ngIf="hasPromotion(product)"
+                      [value]="product.promotion"
+                      severity="danger"
+                      class="promotion-badge">
+                    </p-tag>
+                  </div>
+                </ng-template>
+
+                <!-- Product Content -->
+                <div class="product-content">
+                  <h4 class="product-name">{{ product.name }}</h4>
+                  <p class="product-other-names" *ngIf="product.other_names && product.other_names.length > 0">
+                    <span *ngFor="let name of product.other_names; let last = last">
+                      {{ name }}<span *ngIf="!last">, </span>
+                    </span>
+                  </p>
+
+                  <p-tag
+                    [value]="product.category"
+                    severity="info"
+                    class="category-tag">
+                  </p-tag>
+
+                  <div class="price-section" *ngIf="product.price">
+                    <span class="price">{{ formatPrice(product) }}</span>
+                    <span *ngIf="product.unit" class="unit">/ {{ product.unit }}</span>
+                    <span *ngIf="product.original_price" class="original-price">
+                      ${{ product.original_price.toFixed(2) }}
+                    </span>
+                  </div>
+
+                  <div *ngIf="product.promotion_end" class="promotion-end">
+                    <p-tag
+                      [value]="product.promotion_end"
+                      severity="warning"
+                      [style]="{'font-size': '0.8rem'}">
+                    </p-tag>
+                  </div>
+
+                  <div *ngIf="product.package_size" class="package-size">
+                    <i class="pi pi-box"></i>
+                    {{ product.package_size }}
+                  </div>
+
+                  <p class="description">{{ product.description }}</p>
+                </div>
+
+                <!-- Product Actions -->
+                <ng-template pTemplate="footer">
+                  <div class="product-actions">
+                    <p-button
+                      label="Add to Cart"
+                      icon="pi pi-shopping-cart"
+                      styleClass="p-button-success"
+                      [disabled]="!product.price"
+                      class="add-to-cart-btn">
+                    </p-button>
+
+                    <p-button
+                      *ngIf="hasRecipes(product)"
+                      label="Recipe"
+                      icon="pi pi-book"
+                      styleClass="p-button-warning"
+                      (onClick)="showRecipes(product)"
+                      class="recipe-btn">
+                    </p-button>
+                  </div>
+                </ng-template>
+              </p-card>
             </div>
-          </div>
-
-          <h3 class="product-name">{{ product.name }}</h3>
-          <div *ngIf="product.other_names && product.other_names.length > 0" class="other-names">
-            <span *ngFor="let name of product.other_names; let last = last" class="other-name">
-              {{ name }}<span *ngIf="!last">, </span>
-            </span>
-          </div>
-        </div>
-
-        <div class="product-details">
-          <div class="category-row">
-            <span class="category-tag">{{ product.category }}</span>
-          </div>
-
-          <div class="price-row" *ngIf="product.price">
-            <span class="price">{{ formatPrice(product) }}</span>
-            <span *ngIf="product.unit" class="unit">/ {{ product.unit }}</span>
-            <span *ngIf="product.original_price"
-                  class="original-price">${{ product.original_price.toFixed(2) }}</span>
-          </div>
-
-          <div *ngIf="product.promotion_end" class="promotion-end">
-            <small>{{ product.promotion_end }}</small>
-          </div>
-
-          <div *ngIf="product.package_size" class="package-size">
-            Package: {{ product.package_size }}
-          </div>
-
-          <p class="description">{{ product.description }}</p>
-        </div>
-
-          <div class="product-actions">
-            <button class="add-to-cart-btn" [disabled]="!product.price">
-              <span class="cart-icon">🛒</span>
-              Add to Cart
-            </button>
-            <button *ngIf="hasRecipes(product)"
-                    class="recipe-btn"
-                    (click)="showRecipes(product)">
-              <span class="recipe-icon">👨‍🍳</span>
-              Recipe
-            </button>
-          </div>
-        </div>
+          </ng-template>
+        </p-dataView>
       </div>
     </div>
-  </div>
+  </p-panel>
 
-  <!-- Recipe Modal -->
-  <div *ngIf="showRecipeModal" class="recipe-modal-overlay" (click)="closeRecipeModal()">
-    <div class="recipe-modal" (click)="$event.stopPropagation()" *ngIf="selectedRecipe">
-      <div class="modal-header">
+  <!-- Recipe Dialog -->
+  <p-dialog
+    [(visible)]="showRecipeModal"
+    [modal]="true"
+    [style]="{width: '90vw', maxWidth: '800px'}"
+    [closable]="true"
+    [dismissableMask]="true"
+    *ngIf="selectedRecipe">
+
+    <ng-template pTemplate="header">
+      <div class="recipe-header">
         <h2>{{ selectedRecipe.name }}</h2>
         <p class="chinese-name">{{ selectedRecipe.name_chinese }}</p>
-        <button class="close-btn" (click)="closeRecipeModal()">×</button>
       </div>
+    </ng-template>
 
-      <div class="modal-content">
-        <div class="recipe-meta">
-          <div class="meta-item">
-            <span class="label">Cuisine:</span>
-            <span>{{ selectedRecipe.cuisine }}</span>
+    <div class="recipe-content">
+      <p-panel>
+        <ng-template pTemplate="header">
+          <div class="recipe-meta">
+            <p-chip label="{{ selectedRecipe.cuisine }}" icon="pi pi-globe"></p-chip>
+            <p-chip label="{{ selectedRecipe.difficulty }}" icon="pi pi-chart-line"></p-chip>
+            <p-chip label="Prep: {{ selectedRecipe.prep_time }}" icon="pi pi-clock"></p-chip>
+            <p-chip label="Cook: {{ selectedRecipe.cook_time }}" icon="pi pi-clock"></p-chip>
+            <p-chip label="Servings: {{ selectedRecipe.servings }}" icon="pi pi-users"></p-chip>
           </div>
-          <div class="meta-item">
-            <span class="label">Difficulty:</span>
-            <span>{{ selectedRecipe.difficulty }}</span>
-          </div>
-          <div class="meta-item">
-            <span class="label">Prep:</span>
-            <span>{{ selectedRecipe.prep_time }}</span>
-          </div>
-          <div class="meta-item">
-            <span class="label">Cook:</span>
-            <span>{{ selectedRecipe.cook_time }}</span>
-          </div>
-          <div class="meta-item">
-            <span class="label">Total:</span>
-            <span>{{ selectedRecipe.total_time }}</span>
-          </div>
-          <div class="meta-item">
-            <span class="label">Servings:</span>
-            <span>{{ selectedRecipe.servings }}</span>
-          </div>
-        </div>
+        </ng-template>
 
         <div class="recipe-description">
           <p>{{ selectedRecipe.description }}</p>
           <p class="chinese-description">{{ selectedRecipe.description_chinese }}</p>
         </div>
 
-        <div class="recipe-section">
-          <h3>Ingredients</h3>
-          <ul class="ingredients-list">
-            <li *ngFor="let ingredient of selectedRecipe.ingredients">
-              <strong>{{ ingredient.amount }}</strong> {{ ingredient.item }}
-              <span *ngIf="ingredient.notes" class="ingredient-notes">({{ ingredient.notes }})</span>
-            </li>
-          </ul>
-        </div>
+        <p-tabView>
+          <p-tabPanel header="Ingredients" leftIcon="pi pi-list">
+            <ul class="ingredients-list">
+              <li *ngFor="let ingredient of selectedRecipe.ingredients">
+                <p-checkbox [binary]="true" [disabled]="true"></p-checkbox>
+                <strong>{{ ingredient.amount }}</strong> {{ ingredient.item }}
+                <span *ngIf="ingredient.notes" class="ingredient-notes">({{ ingredient.notes }})</span>
+              </li>
+            </ul>
+          </p-tabPanel>
 
-        <div class="recipe-section">
-          <h3>Instructions</h3>
-          <ol class="instructions-list">
-            <li *ngFor="let instruction of selectedRecipe.instructions">
-              {{ instruction.instruction }}
-            </li>
-          </ol>
-        </div>
+          <p-tabPanel header="Instructions" leftIcon="pi pi-directions">
+            <p-timeline [value]="selectedRecipe.instructions" align="left">
+              <ng-template pTemplate="content" let-instruction>
+                <p-card>
+                  <span class="step-number">Step {{ instruction.step }}</span>
+                  <p>{{ instruction.instruction }}</p>
+                </p-card>
+              </ng-template>
+            </p-timeline>
+          </p-tabPanel>
 
-        <div class="recipe-section" *ngIf="selectedRecipe.tips && selectedRecipe.tips.length > 0">
-          <h3>Tips</h3>
-          <ul class="tips-list">
-            <li *ngFor="let tip of selectedRecipe.tips">{{ tip }}</li>
-          </ul>
-        </div>
+          <p-tabPanel header="Tips" leftIcon="pi pi-info-circle" *ngIf="selectedRecipe.tips && selectedRecipe.tips.length > 0">
+            <ul class="tips-list">
+              <li *ngFor="let tip of selectedRecipe.tips">
+                <i class="pi pi-check-circle"></i>
+                {{ tip }}
+              </li>
+            </ul>
+          </p-tabPanel>
 
-        <div class="recipe-section" *ngIf="selectedRecipe.serving_suggestions && selectedRecipe.serving_suggestions.length > 0">
-          <h3>Serving Suggestions</h3>
-          <ul class="serving-suggestions-list">
-            <li *ngFor="let suggestion of selectedRecipe.serving_suggestions">{{ suggestion }}</li>
-          </ul>
-        </div>
-      </div>
+          <p-tabPanel header="Serving" leftIcon="pi pi-sun" *ngIf="selectedRecipe.serving_suggestions && selectedRecipe.serving_suggestions.length > 0">
+            <ul class="serving-list">
+              <li *ngFor="let suggestion of selectedRecipe.serving_suggestions">
+                <i class="pi pi-star"></i>
+                {{ suggestion }}
+              </li>
+            </ul>
+          </p-tabPanel>
+        </p-tabView>
+
+        <p-fieldset legend="Additional Information" [toggleable]="true" [collapsed]="true">
+          <div class="additional-info">
+            <div class="info-item" *ngIf="selectedRecipe.nutrition_notes">
+              <strong>Nutrition:</strong>
+              <p>{{ selectedRecipe.nutrition_notes }}</p>
+            </div>
+            <div class="info-item" *ngIf="selectedRecipe.storage">
+              <strong>Storage:</strong>
+              <p>{{ selectedRecipe.storage }}</p>
+            </div>
+            <div class="info-item" *ngIf="selectedRecipe.recipe_source">
+              <strong>Source:</strong>
+              <p>{{ selectedRecipe.recipe_source }}</p>
+            </div>
+          </div>
+        </p-fieldset>
+      </p-panel>
     </div>
-  </div>
-</div>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Close"
+        icon="pi pi-times"
+        (onClick)="closeRecipeModal()"
+        styleClass="p-button-text">
+      </p-button>
+      <p-button
+        label="Print Recipe"
+        icon="pi pi-print"
+        styleClass="p-button-secondary">
+      </p-button>
+    </ng-template>
+  </p-dialog>
 </div>

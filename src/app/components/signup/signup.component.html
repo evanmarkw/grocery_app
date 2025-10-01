@@ -1,0 +1,197 @@
+<div class="signup-container">
+  <div class="signup-wrapper">
+    <p-card class="signup-card">
+      <ng-template pTemplate="header">
+        <div class="signup-header">
+          <h2>Create Account</h2>
+          <p>Join 168 Asian Mart today</p>
+        </div>
+      </ng-template>
+
+      <form (ngSubmit)="onSubmit()" class="signup-form">
+        <div class="form-row">
+          <div class="form-field">
+            <span class="p-float-label">
+              <input
+                id="firstName"
+                type="text"
+                pInputText
+                [(ngModel)]="registerData.firstName"
+                name="firstName"
+                [disabled]="loading"
+                required
+                class="w-full"
+              />
+              <label for="firstName">First Name *</label>
+            </span>
+          </div>
+
+          <div class="form-field">
+            <span class="p-float-label">
+              <input
+                id="lastName"
+                type="text"
+                pInputText
+                [(ngModel)]="registerData.lastName"
+                name="lastName"
+                [disabled]="loading"
+                required
+                class="w-full"
+              />
+              <label for="lastName">Last Name *</label>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <span class="p-float-label">
+            <input
+              id="email"
+              type="email"
+              pInputText
+              [(ngModel)]="registerData.email"
+              name="email"
+              [disabled]="loading"
+              required
+              class="w-full"
+              (blur)="validateEmail()"
+            />
+            <label for="email">Email Address *</label>
+          </span>
+          <small *ngIf="emailError" class="p-error">{{ emailError }}</small>
+        </div>
+
+        <div class="form-field">
+          <span class="p-float-label">
+            <input
+              id="phone"
+              type="tel"
+              pInputText
+              [(ngModel)]="registerData.phoneNumber"
+              name="phoneNumber"
+              [disabled]="loading"
+              class="w-full"
+            />
+            <label for="phone">Phone Number (Optional)</label>
+          </span>
+        </div>
+
+        <div class="form-field">
+          <span class="p-float-label">
+            <p-password
+              id="password"
+              [(ngModel)]="registerData.password"
+              name="password"
+              [disabled]="loading"
+              [feedback]="true"
+              [toggleMask]="true"
+              styleClass="w-full"
+              inputStyleClass="w-full"
+              required
+              (onBlur)="validatePassword()">
+            </p-password>
+            <label for="password">Password *</label>
+          </span>
+          <small class="password-hint">Must be at least 8 characters</small>
+          <small *ngIf="passwordError" class="p-error">{{ passwordError }}</small>
+        </div>
+
+        <div class="form-field">
+          <span class="p-float-label">
+            <p-password
+              id="confirmPassword"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              [disabled]="loading"
+              [feedback]="false"
+              [toggleMask]="true"
+              styleClass="w-full"
+              inputStyleClass="w-full"
+              required
+              (onBlur)="validatePasswordMatch()">
+            </p-password>
+            <label for="confirmPassword">Confirm Password *</label>
+          </span>
+          <small *ngIf="confirmPasswordError" class="p-error">{{ confirmPasswordError }}</small>
+        </div>
+
+        <div class="form-field checkbox-field">
+          <p-checkbox
+            [(ngModel)]="agreeToTerms"
+            name="agreeToTerms"
+            [binary]="true"
+            inputId="terms">
+          </p-checkbox>
+          <label for="terms" class="terms-label">
+            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+          </label>
+        </div>
+
+        <div class="form-field checkbox-field">
+          <p-checkbox
+            [(ngModel)]="receiveNewsletter"
+            name="receiveNewsletter"
+            [binary]="true"
+            inputId="newsletter">
+          </p-checkbox>
+          <label for="newsletter" class="newsletter-label">
+            Send me special offers and updates
+          </label>
+        </div>
+
+        <p-message
+          *ngIf="errorMessage"
+          severity="error"
+          [text]="errorMessage"
+          styleClass="w-full mb-3">
+        </p-message>
+
+        <p-message
+          *ngIf="successMessage"
+          severity="success"
+          [text]="successMessage"
+          styleClass="w-full mb-3">
+        </p-message>
+
+        <p-button
+          type="submit"
+          label="Create Account"
+          [loading]="loading"
+          icon="pi pi-user-plus"
+          styleClass="w-full"
+          [disabled]="loading || !agreeToTerms || !isFormValid()">
+        </p-button>
+
+        <p-divider align="center" styleClass="my-4">
+          <span class="divider-text">OR</span>
+        </p-divider>
+
+        <p-button
+          type="button"
+          label="Sign Up with Google"
+          icon="pi pi-google"
+          severity="secondary"
+          styleClass="w-full mb-2"
+          [outlined]="true"
+          [disabled]="loading">
+        </p-button>
+
+        <p-button
+          type="button"
+          label="Sign Up with Facebook"
+          icon="pi pi-facebook"
+          severity="secondary"
+          styleClass="w-full"
+          [outlined]="true"
+          [disabled]="loading">
+        </p-button>
+      </form>
+
+      <ng-template pTemplate="footer">
+        <div class="signup-footer">
+          <small>Already have an account? <a routerLink="/login">Sign in</a></small>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>

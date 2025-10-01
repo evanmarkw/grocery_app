@@ -1,49 +1,83 @@
-<div class="login-container flex align-items-center justify-content-center min-h-screen">
-  <p-card header="Store Manager Login" class="login-card">
-    <form (ngSubmit)="onSubmit()" class="flex flex-column gap-3">
-      <div class="field">
-        <label for="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          pInputText
-          [(ngModel)]="credentials.email"
-          name="email"
-          placeholder="Enter your email"
-          class="w-full"
-          [disabled]="loading"
-          required
-        />
-      </div>
+<div class="login-container">
+  <div class="login-wrapper">
+    <p-card class="login-card">
+      <ng-template pTemplate="header">
+        <div class="login-header">
+          <h2>Sign In</h2>
+          <p>Welcome back to 168 Asian Mart</p>
+        </div>
+      </ng-template>
 
-      <div class="field">
-        <label for="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          pInputText
-          [(ngModel)]="credentials.password"
-          name="password"
-          placeholder="Enter your password"
-          class="w-full"
-          [disabled]="loading"
-          required
-        />
-      </div>
+      <form (ngSubmit)="onSubmit()" class="login-form">
+        <div class="form-field">
+          <span class="p-float-label">
+            <input
+              id="email"
+              type="email"
+              pInputText
+              [(ngModel)]="credentials.email"
+              name="email"
+              [disabled]="loading"
+              required
+              class="w-full"
+            />
+            <label for="email">Email Address</label>
+          </span>
+        </div>
 
-      <p-message
-        *ngIf="errorMessage"
-        severity="error"
-        [text]="errorMessage"
-        styleClass="w-full"
-      ></p-message>
+        <div class="form-field">
+          <span class="p-float-label">
+            <p-password
+              id="password"
+              [(ngModel)]="credentials.password"
+              name="password"
+              [disabled]="loading"
+              [feedback]="false"
+              [toggleMask]="true"
+              styleClass="w-full"
+              inputStyleClass="w-full"
+              required>
+            </p-password>
+            <label for="password">Password</label>
+          </span>
+        </div>
 
-      <p-button
-        type="submit"
-        label="Login"
-        [loading]="loading"
-        styleClass="w-full"
-      ></p-button>
-    </form>
-  </p-card>
+        <p-message
+          *ngIf="errorMessage"
+          severity="error"
+          [text]="errorMessage"
+          styleClass="w-full mb-3">
+        </p-message>
+
+        <p-button
+          type="submit"
+          label="Sign In"
+          [loading]="loading"
+          icon="pi pi-sign-in"
+          styleClass="w-full"
+          [disabled]="loading">
+        </p-button>
+
+        <p-divider align="center" styleClass="my-4">
+          <span class="divider-text">OR</span>
+        </p-divider>
+
+        <p-button
+          type="button"
+          label="Continue as Guest"
+          icon="pi pi-user"
+          severity="secondary"
+          styleClass="w-full"
+          [outlined]="true"
+          (onClick)="continueAsGuest()">
+        </p-button>
+      </form>
+
+      <ng-template pTemplate="footer">
+        <div class="login-footer">
+          <small>Don't have an account? <a routerLink="/signup">Sign up</a></small>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
 </div>
