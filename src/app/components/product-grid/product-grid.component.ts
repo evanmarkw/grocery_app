@@ -8,7 +8,7 @@ import { RecipeService } from '../../services/recipe.service';
   selector: 'app-product-grid',
   standalone: false,
   templateUrl: './product-grid.component.html',
-  styleUrl: './product-grid.component.scss'
+  styleUrl: './product-grid.component.css'
 })
 export class ProductGridComponent implements OnInit {
   allProducts: Product[] = [];

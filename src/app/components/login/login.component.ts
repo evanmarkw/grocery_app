@@ -7,7 +7,7 @@ import { LoginRequest } from '../../models/user.interface';
   selector: 'app-login',
   standalone: false,
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.css'
 })
 export class LoginComponent {
   credentials: LoginRequest = {

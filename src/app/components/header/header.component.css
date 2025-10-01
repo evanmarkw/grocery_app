@@ -1,0 +1,147 @@
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo Container */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.logo-container:hover {
+  opacity: 0.8;
+}
+
+.logo-image {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #d32f2f;
+  white-space: nowrap;
+}
+
+/* Admin Menu */
+.admin-menu {
+  border: none;
+  background: transparent;
+}
+
+/* User Actions */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #2c3e50;
+  white-space: nowrap;
+}
+
+.auth-links {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .logo-text {
+    display: none;
+  }
+
+  .user-name {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo-image {
+    height: 40px;
+  }
+
+  .user-actions {
+    gap: 0.5rem;
+  }
+
+  .auth-links {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* PrimeNG Overrides */
+::ng-deep .app-header {
+  .p-toolbar {
+    background: #ffffff;
+    border: none;
+    border-bottom: 2px solid #e0e0e0;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .p-menubar {
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
+
+  .p-menubar-root-list {
+    gap: 0.5rem;
+  }
+
+  .p-menuitem-link {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  }
+
+  .p-menuitem-link:hover {
+    background: #f5f5f5;
+  }
+
+  .p-menuitem-text {
+    color: #2c3e50;
+    font-weight: 600;
+  }
+
+  .p-menuitem-icon {
+    color: #667eea;
+  }
+
+  .p-submenu-list {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .p-avatar {
+    background-color: #667eea;
+    color: white;
+  }
+
+  .p-button {
+    font-weight: 600;
+  }
+
+  .p-button.p-button-outlined {
+    border-width: 2px;
+  }
+}

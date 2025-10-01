@@ -1,0 +1,55 @@
+<p-toolbar class="app-header">
+  <ng-template pTemplate="start">
+    <div class="logo-container" (click)="goToHome()">
+      <img
+        src="assets/images/0_168_Asian_Mart_Logo.jpg"
+        alt="168 Asian Mart"
+        class="logo-image"
+      />
+      <span class="logo-text">168 Asian Mart</span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="center">
+    <p-menubar
+      *ngIf="(isManager() || isAdmin()) && adminMenuItems.length > 0"
+      [model]="adminMenuItems"
+      class="admin-menu">
+    </p-menubar>
+  </ng-template>
+
+  <ng-template pTemplate="end">
+    <div class="user-actions">
+      <div *ngIf="isAuthenticated()" class="user-info">
+        <p-avatar
+          [label]="getUserInitials()"
+          shape="circle"
+          [style]="{'background-color': '#667eea', 'color': '#ffffff'}"
+          size="large">
+        </p-avatar>
+        <span class="user-name">{{ getUserName() }}</span>
+        <p-button
+          label="Logout"
+          icon="pi pi-sign-out"
+          (onClick)="logout()"
+          [outlined]="true"
+          severity="secondary">
+        </p-button>
+      </div>
+      <div *ngIf="!isAuthenticated()" class="auth-links">
+        <p-button
+          label="Login"
+          icon="pi pi-sign-in"
+          (onClick)="goToLogin()"
+          [outlined]="true">
+        </p-button>
+        <p-button
+          label="Sign Up"
+          icon="pi pi-user-plus"
+          routerLink="/signup"
+          severity="success">
+        </p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-toolbar>

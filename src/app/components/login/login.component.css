@@ -1,0 +1,40 @@
+/* Custom input styling */
+::ng-deep .p-float-label input:focus ~ label,
+::ng-deep .p-float-label input.p-filled ~ label,
+::ng-deep .p-float-label .p-inputtext:focus ~ label,
+::ng-deep .p-float-label .p-inputtext.p-filled ~ label {
+  color: #667eea !important;
+}
+
+::ng-deep .p-inputtext:focus {
+  border-color: #667eea !important;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15) !important;
+}
+
+::ng-deep .p-password input:focus {
+  border-color: #667eea !important;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15) !important;
+}
+
+/* Button styling */
+::ng-deep .p-button:not(.p-button-outlined):not(.p-button-secondary) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  border: none !important;
+}
+
+::ng-deep .p-button:not(.p-button-outlined):not(.p-button-secondary):hover:not(:disabled) {
+  background: linear-gradient(135deg, #5568d3 0%, #653a8a 100%) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
+}
+
+::ng-deep .p-button.p-button-outlined {
+  color: #667eea !important;
+  border: 2px solid #667eea !important;
+}
+
+::ng-deep .p-button.p-button-outlined:hover:not(:disabled) {
+  background: rgba(102, 126, 234, 0.1) !important;
+  border-color: #764ba2 !important;
+  color: #764ba2 !important;
+}

@@ -1,16 +1,16 @@
-<div class="login-container">
-  <div class="login-wrapper">
-    <p-card class="login-card">
+<div class="flex align-items-center justify-content-center min-h-screen px-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+  <div class="w-full" style="max-width: 480px;">
+    <p-card styleClass="shadow-8 border-round-xl">
       <ng-template pTemplate="header">
-        <div class="login-header">
-          <h2>Sign In</h2>
-          <p>Welcome back to 168 Asian Mart</p>
+        <div class="text-center px-3 py-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+          <h2 class="text-4xl font-bold m-0 mb-2">Sign In</h2>
+          <p class="text-xl m-0" style="opacity: 0.95;">Welcome back to 168 Asian Mart</p>
         </div>
       </ng-template>
 
-      <form (ngSubmit)="onSubmit()" class="login-form">
-        <div class="form-field">
-          <span class="p-float-label">
+      <form (ngSubmit)="onSubmit()" class="flex flex-column gap-4 p-4">
+        <div class="field">
+          <span class="p-float-label w-full">
             <input
               id="email"
               type="email"
@@ -19,14 +19,14 @@
               name="email"
               [disabled]="loading"
               required
-              class="w-full"
+              class="w-full p-3 text-lg"
             />
-            <label for="email">Email Address</label>
+            <label for="email" class="text-lg">Email Address</label>
           </span>
         </div>
 
-        <div class="form-field">
-          <span class="p-float-label">
+        <div class="field">
+          <span class="p-float-label w-full">
             <p-password
               id="password"
               [(ngModel)]="credentials.password"
@@ -35,10 +35,10 @@
               [feedback]="false"
               [toggleMask]="true"
               styleClass="w-full"
-              inputStyleClass="w-full"
+              inputStyleClass="w-full p-3 text-lg"
               required>
             </p-password>
-            <label for="password">Password</label>
+            <label for="password" class="text-lg">Password</label>
           </span>
         </div>
 
@@ -46,7 +46,7 @@
           *ngIf="errorMessage"
           severity="error"
           [text]="errorMessage"
-          styleClass="w-full mb-3">
+          styleClass="w-full">
         </p-message>
 
         <p-button
@@ -54,12 +54,12 @@
           label="Sign In"
           [loading]="loading"
           icon="pi pi-sign-in"
-          styleClass="w-full"
+          styleClass="w-full p-3 text-lg font-bold"
           [disabled]="loading">
         </p-button>
 
-        <p-divider align="center" styleClass="my-4">
-          <span class="divider-text">OR</span>
+        <p-divider align="center">
+          <span class="text-sm text-600 font-semibold">OR</span>
         </p-divider>
 
         <p-button
@@ -67,15 +67,15 @@
           label="Continue as Guest"
           icon="pi pi-user"
           severity="secondary"
-          styleClass="w-full"
+          styleClass="w-full p-3 text-lg"
           [outlined]="true"
           (onClick)="continueAsGuest()">
         </p-button>
       </form>
 
       <ng-template pTemplate="footer">
-        <div class="login-footer">
-          <small>Don't have an account? <a routerLink="/signup">Sign up</a></small>
+        <div class="text-center p-3 bg-gray-50">
+          <small class="text-600">Don't have an account? <a routerLink="/signup" class="text-primary font-bold no-underline hover:underline">Sign up</a></small>
         </div>
       </ng-template>
     </p-card>

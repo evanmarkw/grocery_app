@@ -27,17 +27,13 @@
     </div>
 
     <!-- No results messages -->
-    <p-message
-      *ngIf="!loading && filteredProducts.length === 0 && searchTerm"
-      severity="info"
-      [text]="'No products found matching \"' + searchTerm + '\"'">
-    </p-message>
+    <div *ngIf="!loading && filteredProducts.length === 0 && searchTerm" class="message-container">
+      <p-message severity="info" text="No products found matching your search"></p-message>
+    </div>
 
-    <p-message
-      *ngIf="!loading && allProducts.length === 0 && !searchTerm"
-      severity="warn"
-      [text]="'No products available.'">
-    </p-message>
+    <div *ngIf="!loading && allProducts.length === 0 && !searchTerm" class="message-container">
+      <p-message severity="warn" text="No products available"></p-message>
+    </div>
 
     <!-- Product sections organized by category -->
     <div *ngIf="!loading && filteredProducts.length > 0" class="category-sections">
@@ -49,14 +45,9 @@
           </div>
         </p-divider>
 
-        <p-dataView
-          [value]="getFilteredProductsByCategory()[category]"
-          layout="grid"
-          [paginator]="false">
-
-          <ng-template let-product pTemplate="gridItem">
-            <div class="col-12 md:col-6 lg:col-4 p-2">
-              <p-card class="product-card">
+        <div class="products-grid">
+          <div *ngFor="let product of getFilteredProductsByCategory()[category]" class="product-grid-item">
+            <p-card class="product-card">
                 <!-- Product Image -->
                 <ng-template pTemplate="header">
                   <div class="product-image-container">
@@ -139,9 +130,8 @@
                   </div>
                 </ng-template>
               </p-card>
-            </div>
-          </ng-template>
-        </p-dataView>
+          </div>
+        </div>
       </div>
     </div>
   </p-panel>

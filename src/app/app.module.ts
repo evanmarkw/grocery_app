@@ -1,95 +1,100 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
 
-import { ButtonModule } from 'primeng/button';
-import { ToolbarModule } from 'primeng/toolbar';
-import { CardModule } from 'primeng/card';
-import { DataViewModule } from 'primeng/dataview';
-import { RatingModule } from 'primeng/rating';
-import { TagModule } from 'primeng/tag';
-import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
-import { DialogModule } from 'primeng/dialog';
-import { TextareaModule } from 'primeng/textarea';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { CheckboxModule } from 'primeng/checkbox';
-import { DropdownModule } from 'primeng/dropdown';
-import { MessageModule } from 'primeng/message';
-import { PasswordModule } from 'primeng/password';
-import { DividerModule } from 'primeng/divider';
-import { MenuModule } from 'primeng/menu';
-import { TooltipModule } from 'primeng/tooltip';
-import { ToastModule } from 'primeng/toast';
-import { PanelModule } from 'primeng/panel';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { ImageModule } from 'primeng/image';
-import { ChipModule } from 'primeng/chip';
-import { TabViewModule } from 'primeng/tabview';
-import { TimelineModule } from 'primeng/timeline';
-import { FieldsetModule } from 'primeng/fieldset';
-import { MessageService } from 'primeng/api';
-
-import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
 import { routes } from './app.routes';
-import { ProductGridComponent } from './components/product-grid/product-grid.component';
+
+// PrimeNG Components (v19 is hybrid - some use NgModules, some are standalone)
+import { Toolbar } from 'primeng/toolbar';
+import { Button } from 'primeng/button';
+import { TableModule } from 'primeng/table';
+import { Tag } from 'primeng/tag';
+import { Dialog } from 'primeng/dialog';
+import { InputText } from 'primeng/inputtext';
+import { InputTextarea } from 'primeng/inputtextarea';
+import { DropdownModule } from 'primeng/dropdown';
+import { CheckboxModule } from 'primeng/checkbox';
+import { Menubar } from 'primeng/menubar';
+import { Avatar } from 'primeng/avatar';
+import { Card } from 'primeng/card';
+import { Password } from 'primeng/password';
+import { Message } from 'primeng/message';
+import { Divider } from 'primeng/divider';
+import { Panel } from 'primeng/panel';
+import { ProgressSpinner } from 'primeng/progressspinner';
+import { Image } from 'primeng/image';
+import { Chip } from 'primeng/chip';
+import { TabView, TabPanel } from 'primeng/tabview';
+import { Timeline } from 'primeng/timeline';
+import { Fieldset } from 'primeng/fieldset';
+
+// Components
+import { AppComponent } from './app.component';
+import { StoreManagementComponent } from './components/store-management/store-management.component';
+import { HeaderComponent } from './components/header/header.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { HomeComponent } from './components/home/home.component';
+import { ProductGridComponent } from './components/product-grid/product-grid.component';
 import { ManagerDashboardComponent } from './components/manager-dashboard/manager-dashboard.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
-import { StoreManagementComponent } from './components/store-management/store-management.component';
 import { UserManagementComponent } from './components/user-management/user-management.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    ProductGridComponent,
+    StoreManagementComponent,
+    HeaderComponent,
     LoginComponent,
     SignupComponent,
+    HomeComponent,
+    ProductGridComponent,
     ManagerDashboardComponent,
     ProductManagementComponent,
-    StoreManagementComponent,
     UserManagementComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-    HttpClientModule,
     RouterModule.forRoot(routes),
-    ButtonModule,
-    ToolbarModule,
-    CardModule,
-    DataViewModule,
-    RatingModule,
-    TagModule,
-    InputTextModule,
+    Toolbar,
+    Button,
     TableModule,
-    DialogModule,
-    TextareaModule,
-    InputNumberModule,
-    CheckboxModule,
+    Tag,
+    Dialog,
+    InputText,
+    InputTextarea,
     DropdownModule,
-    MessageModule,
-    PasswordModule,
-    DividerModule,
-    MenuModule,
-    TooltipModule,
-    ToastModule,
-    PanelModule,
-    ProgressSpinnerModule,
-    ImageModule,
-    ChipModule,
-    TabViewModule,
-    TimelineModule,
-    FieldsetModule
+    CheckboxModule,
+    Menubar,
+    Avatar,
+    Card,
+    Password,
+    Message,
+    Divider,
+    Panel,
+    ProgressSpinner,
+    Image,
+    Chip,
+    TabView,
+    TabPanel,
+    Timeline,
+    Fieldset
   ],
-  providers: [MessageService],
+  providers: [
+    provideHttpClient(withFetch()),
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    })
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

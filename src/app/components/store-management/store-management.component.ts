@@ -7,7 +7,7 @@ import { BackendStoreService } from '../../services/backend-store.service';
   selector: 'app-store-management',
   standalone: false,
   templateUrl: './store-management.component.html',
-  styleUrl: './store-management.component.scss'
+  styleUrl: './store-management.component.css'
 })
 export class StoreManagementComponent implements OnInit {
   stores: BackendStore[] = [];
