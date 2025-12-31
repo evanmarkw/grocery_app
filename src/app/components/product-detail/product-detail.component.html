@@ -1,0 +1,335 @@
+<div class="product-detail-container">
+  <!-- Loading state -->
+  <div *ngIf="loading" class="loading-container">
+    <p-progressSpinner strokeWidth="4" fill="transparent"></p-progressSpinner>
+    <p>Loading product details...</p>
+  </div>
+
+  <!-- Product not found -->
+  <div *ngIf="!loading && !product" class="not-found-container">
+    <p-message severity="error" text="Product not found"></p-message>
+    <p-button
+      label="Back to Products"
+      icon="pi pi-arrow-left"
+      (onClick)="goBack()"
+      styleClass="p-button-outlined">
+    </p-button>
+  </div>
+
+  <!-- Product details -->
+  <div *ngIf="!loading && product" class="product-detail-content">
+    <!-- Breadcrumb navigation -->
+    <div class="breadcrumb-section">
+      <p-button
+        label="Back to Products"
+        icon="pi pi-arrow-left"
+        (onClick)="goBack()"
+        styleClass="p-button-text p-button-sm">
+      </p-button>
+    </div>
+
+    <div class="product-main-section">
+      <!-- Left side: Product Image -->
+      <div class="product-image-section">
+        <p-card>
+          <ng-template pTemplate="header">
+            <div class="main-image-container">
+              <p-image
+                [src]="getImagePath(product.image_filename)"
+                [alt]="product.name"
+                width="100%"
+                [preview]="true"
+                (onError)="onImageError($event)">
+              </p-image>
+
+              <!-- Promotion badge -->
+              <p-tag
+                *ngIf="product.promotion"
+                [value]="product.promotion"
+                severity="danger"
+                class="promotion-badge">
+              </p-tag>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+
+      <!-- Right side: Product Information -->
+      <div class="product-info-section">
+        <p-card>
+          <!-- Product Header -->
+          <div class="product-header">
+            <h1 class="product-title">{{ product.name }}</h1>
+            <p class="product-other-names" *ngIf="product.other_names && product.other_names.length > 0">
+              <span *ngFor="let name of product.other_names; let last = last">
+                {{ name }}<span *ngIf="!last">, </span>
+              </span>
+            </p>
+
+            <div class="product-meta">
+              <p-tag
+                [value]="product.category"
+                severity="info"
+                icon="pi pi-tag">
+              </p-tag>
+              <p-chip
+                *ngIf="product.package_size"
+                [label]="product.package_size"
+                icon="pi pi-box">
+              </p-chip>
+            </div>
+          </div>
+
+          <p-divider></p-divider>
+
+          <!-- Price Section -->
+          <div class="price-section">
+            <div class="price-main" *ngIf="product.price">
+              <span class="current-price">{{ formatPrice(product.price) }}</span>
+              <span *ngIf="product.unit" class="unit-text">/ {{ product.unit }}</span>
+            </div>
+            <div *ngIf="product.original_price && product.original_price > product.price!" class="original-price-section">
+              <span class="original-price">Was: {{ formatPrice(product.original_price) }}</span>
+              <p-tag
+                value="Sale"
+                severity="success"
+                icon="pi pi-percentage">
+              </p-tag>
+            </div>
+            <div *ngIf="product.promotion_end" class="promotion-end">
+              <p-tag
+                [value]="'Ends: ' + product.promotion_end"
+                severity="warning"
+                icon="pi pi-clock">
+              </p-tag>
+            </div>
+          </div>
+
+          <p-divider></p-divider>
+
+          <!-- Product Description -->
+          <div class="description-section" *ngIf="product.description">
+            <h3>Product Description</h3>
+            <p class="description-text">{{ product.description }}</p>
+          </div>
+
+          <p-divider></p-divider>
+
+          <!-- Quantity and Add to Cart Section -->
+          <div class="purchase-section">
+            <div class="quantity-selector">
+              <label class="quantity-label">Quantity:</label>
+              <div class="quantity-controls">
+                <p-button
+                  icon="pi pi-minus"
+                  (onClick)="decreaseQuantity()"
+                  [disabled]="quantity <= 1"
+                  styleClass="p-button-outlined p-button-sm">
+                </p-button>
+                <span class="quantity-display">{{ quantity }}</span>
+                <p-button
+                  icon="pi pi-plus"
+                  (onClick)="increaseQuantity()"
+                  styleClass="p-button-outlined p-button-sm">
+                </p-button>
+              </div>
+            </div>
+
+            <div class="total-price">
+              <span class="total-label">Total:</span>
+              <span class="total-amount">{{ getTotalPrice() }}</span>
+            </div>
+
+            <div class="action-buttons">
+              <p-button
+                label="Add to Cart"
+                icon="pi pi-shopping-cart"
+                (onClick)="addToCart()"
+                [disabled]="!product.price"
+                styleClass="p-button-lg p-button-success add-to-cart-btn">
+              </p-button>
+
+              <p-button
+                *ngIf="hasRecipes()"
+                label="View Recipe"
+                icon="pi pi-book"
+                (onClick)="showRecipes()"
+                styleClass="p-button-lg p-button-warning">
+              </p-button>
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </div>
+
+    <!-- Additional Information Section -->
+    <div class="additional-info-section">
+      <p-card>
+        <ng-template pTemplate="header">
+          <h2>Additional Information</h2>
+        </ng-template>
+
+        <p-tabView>
+          <p-tabPanel header="Details" leftIcon="pi pi-info-circle">
+            <div class="detail-grid">
+              <div class="detail-item" *ngIf="product.category">
+                <strong>Category:</strong>
+                <span>{{ product.category }}</span>
+              </div>
+              <div class="detail-item" *ngIf="product.package_size">
+                <strong>Package Size:</strong>
+                <span>{{ product.package_size }}</span>
+              </div>
+              <div class="detail-item" *ngIf="product.unit">
+                <strong>Unit:</strong>
+                <span>{{ product.unit }}</span>
+              </div>
+              <div class="detail-item" *ngIf="product.promotion_start">
+                <strong>Promotion Start:</strong>
+                <span>{{ product.promotion_start }}</span>
+              </div>
+              <div class="detail-item" *ngIf="product.promotion_end">
+                <strong>Promotion End:</strong>
+                <span>{{ product.promotion_end }}</span>
+              </div>
+            </div>
+          </p-tabPanel>
+
+          <p-tabPanel header="Recipes" leftIcon="pi pi-book" *ngIf="hasRecipes()">
+            <div class="recipes-section">
+              <p>This product has {{ recipes.length }} recipe(s) available.</p>
+              <div class="recipe-cards">
+                <div *ngFor="let recipe of recipes" class="recipe-card-item">
+                  <p-card>
+                    <h4>{{ recipe.name }}</h4>
+                    <p class="recipe-chinese">{{ recipe.name_chinese }}</p>
+                    <p>{{ recipe.description }}</p>
+                    <div class="recipe-meta-small">
+                      <p-chip [label]="recipe.cuisine" icon="pi pi-globe"></p-chip>
+                      <p-chip [label]="recipe.difficulty" icon="pi pi-chart-line"></p-chip>
+                      <p-chip [label]="'Prep: ' + recipe.prep_time" icon="pi pi-clock"></p-chip>
+                    </div>
+                    <p-button
+                      label="View Full Recipe"
+                      icon="pi pi-arrow-right"
+                      (onClick)="selectedRecipe = recipe; showRecipeModal = true"
+                      styleClass="p-button-sm p-button-outlined">
+                    </p-button>
+                  </p-card>
+                </div>
+              </div>
+            </div>
+          </p-tabPanel>
+        </p-tabView>
+      </p-card>
+    </div>
+  </div>
+
+  <!-- Recipe Dialog (same as product-grid) -->
+  <p-dialog
+    [(visible)]="showRecipeModal"
+    [modal]="true"
+    [style]="{width: '90vw', maxWidth: '800px'}"
+    [closable]="true"
+    [dismissableMask]="true"
+    *ngIf="selectedRecipe">
+
+    <ng-template pTemplate="header">
+      <div class="recipe-header">
+        <h2>{{ selectedRecipe.name }}</h2>
+        <p class="chinese-name">{{ selectedRecipe.name_chinese }}</p>
+      </div>
+    </ng-template>
+
+    <div class="recipe-content">
+      <p-panel>
+        <ng-template pTemplate="header">
+          <div class="recipe-meta">
+            <p-chip [label]="selectedRecipe.cuisine" icon="pi pi-globe"></p-chip>
+            <p-chip [label]="selectedRecipe.difficulty" icon="pi pi-chart-line"></p-chip>
+            <p-chip [label]="'Prep: ' + selectedRecipe.prep_time" icon="pi pi-clock"></p-chip>
+            <p-chip [label]="'Cook: ' + selectedRecipe.cook_time" icon="pi pi-clock"></p-chip>
+            <p-chip [label]="'Servings: ' + selectedRecipe.servings" icon="pi pi-users"></p-chip>
+          </div>
+        </ng-template>
+
+        <div class="recipe-description">
+          <p>{{ selectedRecipe.description }}</p>
+          <p class="chinese-description" *ngIf="selectedRecipe.description_chinese">{{ selectedRecipe.description_chinese }}</p>
+        </div>
+
+        <p-tabView>
+          <p-tabPanel header="Ingredients" leftIcon="pi pi-list">
+            <ul class="ingredients-list">
+              <li *ngFor="let ingredient of selectedRecipe.ingredients">
+                <p-checkbox [binary]="true" [disabled]="true"></p-checkbox>
+                <strong>{{ ingredient.amount }}</strong> {{ ingredient.item }}
+                <span *ngIf="ingredient.notes" class="ingredient-notes">({{ ingredient.notes }})</span>
+              </li>
+            </ul>
+          </p-tabPanel>
+
+          <p-tabPanel header="Instructions" leftIcon="pi pi-directions">
+            <p-timeline [value]="selectedRecipe.instructions" align="left">
+              <ng-template pTemplate="content" let-instruction>
+                <p-card>
+                  <span class="step-number">Step {{ instruction.step }}</span>
+                  <p>{{ instruction.instruction }}</p>
+                </p-card>
+              </ng-template>
+            </p-timeline>
+          </p-tabPanel>
+
+          <p-tabPanel header="Tips" leftIcon="pi pi-info-circle" *ngIf="selectedRecipe.tips && selectedRecipe.tips.length > 0">
+            <ul class="tips-list">
+              <li *ngFor="let tip of selectedRecipe.tips">
+                <i class="pi pi-check-circle"></i>
+                {{ tip }}
+              </li>
+            </ul>
+          </p-tabPanel>
+
+          <p-tabPanel header="Serving" leftIcon="pi pi-sun" *ngIf="selectedRecipe.serving_suggestions && selectedRecipe.serving_suggestions.length > 0">
+            <ul class="serving-list">
+              <li *ngFor="let suggestion of selectedRecipe.serving_suggestions">
+                <i class="pi pi-star"></i>
+                {{ suggestion }}
+              </li>
+            </ul>
+          </p-tabPanel>
+        </p-tabView>
+
+        <p-fieldset legend="Additional Information" [toggleable]="true" [collapsed]="true">
+          <div class="additional-info">
+            <div class="info-item" *ngIf="selectedRecipe.nutrition_notes">
+              <strong>Nutrition:</strong>
+              <p>{{ selectedRecipe.nutrition_notes }}</p>
+            </div>
+            <div class="info-item" *ngIf="selectedRecipe.storage">
+              <strong>Storage:</strong>
+              <p>{{ selectedRecipe.storage }}</p>
+            </div>
+            <div class="info-item" *ngIf="selectedRecipe.recipe_source">
+              <strong>Source:</strong>
+              <p>{{ selectedRecipe.recipe_source }}</p>
+            </div>
+          </div>
+        </p-fieldset>
+      </p-panel>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Close"
+        icon="pi pi-times"
+        (onClick)="closeRecipeModal()"
+        styleClass="p-button-text">
+      </p-button>
+      <p-button
+        label="Print Recipe"
+        icon="pi pi-print"
+        styleClass="p-button-secondary">
+      </p-button>
+    </ng-template>
+  </p-dialog>
+</div>

@@ -17,6 +17,7 @@ import { Tag } from 'primeng/tag';
 import { Dialog } from 'primeng/dialog';
 import { InputText } from 'primeng/inputtext';
 import { InputTextarea } from 'primeng/inputtextarea';
+import { InputNumber } from 'primeng/inputnumber';
 import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
 import { Menubar } from 'primeng/menubar';
@@ -44,6 +45,11 @@ import { ProductGridComponent } from './components/product-grid/product-grid.com
 import { ManagerDashboardComponent } from './components/manager-dashboard/manager-dashboard.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { UserManagementComponent } from './components/user-management/user-management.component';
+import { AisleManagementComponent } from './components/aisle-management/aisle-management.component';
+import { ShelfManagementComponent } from './components/shelf-management/shelf-management.component';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { CartComponent } from './components/cart/cart.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +62,12 @@ import { UserManagementComponent } from './components/user-management/user-manag
     ProductGridComponent,
     ManagerDashboardComponent,
     ProductManagementComponent,
-    UserManagementComponent
+    UserManagementComponent,
+    AisleManagementComponent,
+    ShelfManagementComponent,
+    ProductDetailComponent,
+    CartComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +81,7 @@ import { UserManagementComponent } from './components/user-management/user-manag
     Dialog,
     InputText,
     InputTextarea,
+    InputNumber,
     DropdownModule,
     CheckboxModule,
     Menubar,

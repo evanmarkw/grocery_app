@@ -4,6 +4,18 @@ import { Recipe } from '../../models/recipe.interface';
 import { ProductService } from '../../services/product.service';
 import { RecipeService } from '../../services/recipe.service';
 
+interface Shelf {
+  name: string;
+  products: Product[];
+  quantity: number;
+}
+
+interface Aisle {
+  name: string;
+  shelves: Shelf[];
+  totalProducts: number;
+}
+
 @Component({
   selector: 'app-product-grid',
   standalone: false,
@@ -15,6 +27,7 @@ export class ProductGridComponent implements OnInit {
   filteredProducts: Product[] = [];
   productsByCategory: { [category: string]: Product[] } = {};
   categoryKeys: string[] = [];
+  aisles: Aisle[] = [];
   searchTerm: string = '';
   loading = true;
   productRecipes: { [productId: number]: Recipe[] } = {};
@@ -38,6 +51,7 @@ export class ProductGridComponent implements OnInit {
         this.categoryKeys = Object.keys(groupedProducts).sort();
         this.allProducts = Object.values(groupedProducts).flat();
         this.filteredProducts = this.allProducts;
+        this.organizeIntoAisles();
         this.loading = false;
       },
       error: (error) => {
@@ -72,6 +86,7 @@ export class ProductGridComponent implements OnInit {
         this.filteredProducts = fallbackProducts;
         this.productsByCategory = this.groupProductsByCategory(fallbackProducts);
         this.categoryKeys = Object.keys(this.productsByCategory);
+        this.organizeIntoAisles();
       }
     });
   }
@@ -190,5 +205,98 @@ export class ProductGridComponent implements OnInit {
   closeRecipeModal() {
     this.showRecipeModal = false;
     this.selectedRecipe = null;
+  }
+
+  private organizeIntoAisles() {
+    // Define aisle groupings based on product categories
+    const aisleMap: { [aisleName: string]: string[] } = {
+      'Frozen Foods': ['Frozen Seafood', 'Frozen Food', 'Frozen Poultry', 'Frozen Fruit', 'Frozen Pastry'],
+      'Fresh Market': ['Fresh Produce', 'Fresh Seafood', 'Live Seafood'],
+      'Pantry & Dry Goods': ['Condiments', 'Instant Noodles', 'Dried Noodles', 'Dried Seafood'],
+      'Refrigerated Items': ['Refrigerated', 'Ready-to-Eat'],
+      'Health & Beauty': ['Beauty & Personal Care', 'Traditional Medicine'],
+      'Desserts & Snacks': ['Desserts']
+    };
+
+    this.aisles = [];
+
+    Object.keys(aisleMap).forEach(aisleName => {
+      const categoriesInAisle = aisleMap[aisleName];
+      const shelves: Shelf[] = [];
+      let totalProducts = 0;
+
+      categoriesInAisle.forEach(category => {
+        if (this.productsByCategory[category]) {
+          const products = this.productsByCategory[category];
+          const shelfSize = 4; // Products per shelf
+
+          // Split products into shelves of 4 items each
+          for (let i = 0; i < products.length; i += shelfSize) {
+            const shelfProducts = products.slice(i, i + shelfSize);
+            const shelfNumber = Math.floor(i / shelfSize) + 1;
+            const shelfName = products.length <= shelfSize
+              ? category
+              : `${category} - Shelf ${shelfNumber}`;
+
+            shelves.push({
+              name: shelfName,
+              products: shelfProducts,
+              quantity: shelfProducts.length
+            });
+            totalProducts += shelfProducts.length;
+          }
+        }
+      });
+
+      if (shelves.length > 0) {
+        this.aisles.push({
+          name: aisleName,
+          shelves: shelves,
+          totalProducts: totalProducts
+        });
+      }
+    });
+  }
+
+  getFilteredAisles(): Aisle[] {
+    if (!this.searchTerm.trim()) {
+      return this.aisles;
+    }
+
+    const searchLower = this.searchTerm.toLowerCase();
+    const filteredAisles: Aisle[] = [];
+
+    this.aisles.forEach(aisle => {
+      const filteredShelves: Shelf[] = [];
+      let totalProducts = 0;
+
+      aisle.shelves.forEach(shelf => {
+        const matchingProducts = shelf.products.filter(product =>
+          product.name.toLowerCase().includes(searchLower) ||
+          (product.other_names && product.other_names.some(name =>
+            name.toLowerCase().includes(searchLower)
+          ))
+        );
+
+        if (matchingProducts.length > 0) {
+          filteredShelves.push({
+            name: shelf.name,
+            products: matchingProducts,
+            quantity: matchingProducts.length
+          });
+          totalProducts += matchingProducts.length;
+        }
+      });
+
+      if (filteredShelves.length > 0) {
+        filteredAisles.push({
+          name: aisle.name,
+          shelves: filteredShelves,
+          totalProducts: totalProducts
+        });
+      }
+    });
+
+    return filteredAisles;
   }
 }

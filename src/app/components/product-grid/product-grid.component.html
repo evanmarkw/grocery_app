@@ -35,22 +35,30 @@
       <p-message severity="warn" text="No products available"></p-message>
     </div>
 
-    <!-- Product sections organized by category -->
-    <div *ngIf="!loading && filteredProducts.length > 0" class="category-sections">
-      <div *ngFor="let category of getFilteredCategoryKeys()" class="category-section">
+    <!-- Product sections organized by aisles and shelves -->
+    <div *ngIf="!loading && filteredProducts.length > 0" class="aisle-sections">
+      <div *ngFor="let aisle of getFilteredAisles()" class="aisle-section">
         <p-divider align="left">
-          <div class="category-divider">
-            <i class="pi pi-tag"></i>
-            <span class="category-title">{{ category }}</span>
+          <div class="aisle-divider">
+            <i class="pi pi-shopping-cart"></i>
+            <span class="aisle-title">{{ aisle.name }}</span>
+            <p-tag [value]="aisle.totalProducts + ' items'" severity="info" styleClass="ml-2"></p-tag>
           </div>
         </p-divider>
 
-        <div class="products-grid">
-          <div *ngFor="let product of getFilteredProductsByCategory()[category]" class="product-grid-item">
-            <p-card class="product-card">
+        <div *ngFor="let shelf of aisle.shelves" class="shelf-section">
+          <div class="shelf-header">
+            <i class="pi pi-bars"></i>
+            <span class="shelf-name">{{ shelf.name }}</span>
+            <p-chip [label]="shelf.quantity + ' products'" icon="pi pi-box"></p-chip>
+          </div>
+
+          <div class="products-grid">
+            <div *ngFor="let product of shelf.products" class="product-grid-item">
+            <p-card class="product-card" [style]="{'cursor': 'pointer'}">
                 <!-- Product Image -->
                 <ng-template pTemplate="header">
-                  <div class="product-image-container">
+                  <div class="product-image-container" [routerLink]="['/product', product.id]">
                     <p-image
                       [src]="getImagePath(product.image_filename)"
                       [alt]="product.name"
@@ -70,7 +78,7 @@
                 </ng-template>
 
                 <!-- Product Content -->
-                <div class="product-content">
+                <div class="product-content" [routerLink]="['/product', product.id]">
                   <h4 class="product-name">{{ product.name }}</h4>
                   <p class="product-other-names" *ngIf="product.other_names && product.other_names.length > 0">
                     <span *ngFor="let name of product.other_names; let last = last">
@@ -130,6 +138,7 @@
                   </div>
                 </ng-template>
               </p-card>
+            </div>
           </div>
         </div>
       </div>

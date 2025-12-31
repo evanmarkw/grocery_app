@@ -16,6 +16,7 @@ export interface BackendProduct {
   weightUnit?: string;
   volume?: number;
   volumeUnit?: string;
+  imageUrl?: string;
   createdAt?: string;
   updatedAt?: string;
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart.service';
 import { User } from '../../models/user.interface';
 import { MenuItem } from 'primeng/api';
 
@@ -13,9 +14,11 @@ import { MenuItem } from 'primeng/api';
 export class HeaderComponent implements OnInit {
   currentUser: User | null = null;
   adminMenuItems: MenuItem[] = [];
+  cartItemCount: number = 0;
 
   constructor(
     private authService: AuthService,
+    private cartService: CartService,
     private router: Router
   ) {}
 
@@ -23,6 +26,10 @@ export class HeaderComponent implements OnInit {
     this.authService.currentUser.subscribe(user => {
       this.currentUser = user;
       this.updateAdminMenu();
+    });
+
+    this.cartService.cartItems$.subscribe(items => {
+      this.cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
     });
   }
 
@@ -105,5 +112,13 @@ export class HeaderComponent implements OnInit {
       return `${this.currentUser.firstName} ${this.currentUser.lastName}`;
     }
     return '';
+  }
+
+  goToCart() {
+    this.router.navigate(['/cart']);
+  }
+
+  getCartItemCount(): number {
+    return this.cartItemCount;
   }
 }

@@ -5,17 +5,20 @@ export enum UserRole {
 }
 
 export interface User {
-  id: number;
+  id?: number;
   email: string;
+  password?: string;
   firstName: string;
   lastName: string;
+  phone?: string;
   phoneNumber?: string;
+  address?: string;
   role: UserRole;
   active: boolean;
-  emailVerified: boolean;
+  emailVerified?: boolean;
   notificationsEnabled: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
   lastLoginAt?: string;
 }
 

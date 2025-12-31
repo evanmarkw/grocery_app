@@ -6,11 +6,17 @@ import { ManagerDashboardComponent } from './components/manager-dashboard/manage
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { StoreManagementComponent } from './components/store-management/store-management.component';
 import { UserManagementComponent } from './components/user-management/user-management.component';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { CartComponent } from './components/cart/cart.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ManagerGuard } from './guards/manager.guard';
 import { AdminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'product/:id', component: ProductDetailComponent },
+  { path: 'cart', component: CartComponent },
+  { path: 'checkout', component: CheckoutComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   {

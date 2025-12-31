@@ -1,0 +1,189 @@
+<div class="cart-container">
+  <p-panel>
+    <ng-template pTemplate="header">
+      <div class="cart-header">
+        <h2 class="cart-title">
+          <i class="pi pi-shopping-cart"></i>
+          Shopping Cart
+        </h2>
+        <p-tag
+          [value]="cartItems.length + ' items'"
+          severity="info"
+          icon="pi pi-box">
+        </p-tag>
+      </div>
+    </ng-template>
+
+    <!-- Empty cart message -->
+    <div *ngIf="isEmpty()" class="empty-cart">
+      <i class="pi pi-shopping-cart empty-cart-icon"></i>
+      <h3>Your cart is empty</h3>
+      <p>Add some products to get started!</p>
+      <p-button
+        label="Continue Shopping"
+        icon="pi pi-arrow-left"
+        (onClick)="continueShopping()"
+        styleClass="p-button-lg">
+      </p-button>
+    </div>
+
+    <!-- Cart items -->
+    <div *ngIf="!isEmpty()" class="cart-content">
+      <div class="cart-items-section">
+        <div class="cart-actions-header">
+          <p-button
+            label="Continue Shopping"
+            icon="pi pi-arrow-left"
+            (onClick)="continueShopping()"
+            styleClass="p-button-text">
+          </p-button>
+          <p-button
+            label="Clear Cart"
+            icon="pi pi-trash"
+            (onClick)="clearCart()"
+            severity="danger"
+            styleClass="p-button-text">
+          </p-button>
+        </div>
+
+        <div class="cart-items-list">
+          <div *ngFor="let item of cartItems" class="cart-item">
+            <p-card>
+              <div class="cart-item-content">
+                <!-- Product Image -->
+                <div class="cart-item-image" (click)="viewProduct(item.product.id)">
+                  <img
+                    [src]="getImagePath(item.product.image_filename)"
+                    [alt]="item.product.name"
+                    (error)="onImageError($event)">
+                </div>
+
+                <!-- Product Info -->
+                <div class="cart-item-info">
+                  <h3 class="cart-item-name" (click)="viewProduct(item.product.id)">
+                    {{ item.product.name }}
+                  </h3>
+                  <p class="cart-item-other-names" *ngIf="item.product.other_names && item.product.other_names.length > 0">
+                    {{ item.product.other_names.join(', ') }}
+                  </p>
+                  <div class="cart-item-meta">
+                    <p-tag
+                      [value]="item.product.category"
+                      severity="info"
+                      class="category-tag">
+                    </p-tag>
+                    <p-tag
+                      *ngIf="item.product.promotion"
+                      [value]="item.product.promotion"
+                      severity="danger">
+                    </p-tag>
+                  </div>
+                  <p class="cart-item-description">{{ item.product.description }}</p>
+                </div>
+
+                <!-- Quantity Controls -->
+                <div class="cart-item-quantity">
+                  <label class="quantity-label">Quantity</label>
+                  <div class="quantity-controls">
+                    <p-button
+                      icon="pi pi-minus"
+                      (onClick)="decreaseQuantity(item)"
+                      [disabled]="item.quantity <= 1"
+                      styleClass="p-button-outlined p-button-sm">
+                    </p-button>
+                    <span class="quantity-display">{{ item.quantity }}</span>
+                    <p-button
+                      icon="pi pi-plus"
+                      (onClick)="increaseQuantity(item)"
+                      styleClass="p-button-outlined p-button-sm">
+                    </p-button>
+                  </div>
+                </div>
+
+                <!-- Price -->
+                <div class="cart-item-price">
+                  <div class="unit-price">
+                    <span class="price-label">Unit Price:</span>
+                    <span class="price-value">{{ formatPrice(item.product.price || 0) }}</span>
+                    <span *ngIf="item.product.unit" class="unit-text">/ {{ item.product.unit }}</span>
+                  </div>
+                  <div class="item-total">
+                    <span class="total-label">Total:</span>
+                    <span class="total-value">{{ formatPrice(getItemTotal(item)) }}</span>
+                  </div>
+                </div>
+
+                <!-- Remove Button -->
+                <div class="cart-item-actions">
+                  <p-button
+                    icon="pi pi-trash"
+                    (onClick)="removeItem(item)"
+                    severity="danger"
+                    styleClass="p-button-text p-button-sm"
+                    pTooltip="Remove from cart"
+                    tooltipPosition="top">
+                  </p-button>
+                </div>
+              </div>
+            </p-card>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cart Summary -->
+      <div class="cart-summary-section">
+        <p-card>
+          <ng-template pTemplate="header">
+            <h3 class="summary-title">Order Summary</h3>
+          </ng-template>
+
+          <div class="summary-content">
+            <div class="summary-row">
+              <span class="summary-label">Subtotal:</span>
+              <span class="summary-value">{{ formatPrice(getSubtotal()) }}</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Tax (8%):</span>
+              <span class="summary-value">{{ formatPrice(getTax()) }}</span>
+            </div>
+            <p-divider></p-divider>
+            <div class="summary-row total-row">
+              <span class="summary-label">Total:</span>
+              <span class="summary-value total-value">{{ formatPrice(getTotal()) }}</span>
+            </div>
+          </div>
+
+          <ng-template pTemplate="footer">
+            <div class="summary-actions">
+              <p-button
+                label="Proceed to Checkout"
+                icon="pi pi-credit-card"
+                (onClick)="proceedToCheckout()"
+                styleClass="p-button-lg p-button-success checkout-btn"
+                [style]="{'width': '100%'}">
+              </p-button>
+            </div>
+          </ng-template>
+        </p-card>
+
+        <!-- Additional Info -->
+        <p-card class="info-card">
+          <div class="info-content">
+            <div class="info-item">
+              <i class="pi pi-check-circle"></i>
+              <span>Free shipping on orders over $50</span>
+            </div>
+            <div class="info-item">
+              <i class="pi pi-shield"></i>
+              <span>Secure checkout</span>
+            </div>
+            <div class="info-item">
+              <i class="pi pi-replay"></i>
+              <span>Easy returns within 30 days</span>
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </div>
+  </p-panel>
+</div>

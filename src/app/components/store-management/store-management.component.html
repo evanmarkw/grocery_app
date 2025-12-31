@@ -55,20 +55,22 @@
             ></p-tag>
           </td>
           <td>
-            <p-button
-              icon="pi pi-pencil"
-              (onClick)="showEditDialog(store)"
-              [text]="true"
-              [rounded]="true"
-              severity="info"
-            ></p-button>
-            <p-button
-              icon="pi pi-trash"
-              (onClick)="deleteStore(store)"
-              [text]="true"
-              [rounded]="true"
-              severity="danger"
-            ></p-button>
+            <div class="flex gap-2">
+              <p-button
+                label="Edit"
+                icon="pi pi-pencil"
+                (onClick)="showEditDialog(store)"
+                severity="info"
+                size="small"
+              ></p-button>
+              <p-button
+                label="Delete"
+                icon="pi pi-trash"
+                (onClick)="deleteStore(store)"
+                severity="danger"
+                size="small"
+              ></p-button>
+            </div>
           </td>
         </tr>
       </ng-template>
@@ -85,11 +87,13 @@
   [(visible)]="displayDialog"
   [header]="isEditMode ? 'Edit Store' : 'Add Store'"
   [modal]="true"
-  [style]="{ width: '60vw' }"
+  [style]="{ width: '80vw', maxHeight: '90vh' }"
   [draggable]="false"
   [resizable]="false"
 >
-  <form class="flex flex-column gap-3">
+  <p-tabView *ngIf="isEditMode; else addStoreForm">
+    <p-tabPanel header="Store Details">
+      <form class="flex flex-column gap-3">
     <div class="grid">
       <div class="col-6">
         <div class="field">
@@ -241,25 +245,333 @@
       />
     </div>
 
-    <div class="flex gap-3">
-      <div class="field">
-        <p-checkbox
-          [(ngModel)]="storeForm.deliveryEnabled"
-          name="deliveryEnabled"
-          [binary]="true"
-          label="Delivery Enabled"
-        ></p-checkbox>
-      </div>
-      <div class="field">
-        <p-checkbox
-          [(ngModel)]="storeForm.pickupEnabled"
-          name="pickupEnabled"
-          [binary]="true"
-          label="Pickup Enabled"
-        ></p-checkbox>
+    <div class="field">
+      <label class="block mb-2 font-semibold">Service Options</label>
+      <div class="flex flex-column gap-2">
+        <div>
+          <p-checkbox
+            [(ngModel)]="storeForm.deliveryEnabled"
+            name="deliveryEnabled"
+            [binary]="true"
+            label="Delivery Enabled"
+          ></p-checkbox>
+          <small class="block ml-4 text-color-secondary">When checked, this store will offer delivery services to customers</small>
+        </div>
+        <div>
+          <p-checkbox
+            [(ngModel)]="storeForm.pickupEnabled"
+            name="pickupEnabled"
+            [binary]="true"
+            label="Pickup Enabled"
+          ></p-checkbox>
+          <small class="block ml-4 text-color-secondary">When checked, this store will allow customers to place orders for pickup</small>
+        </div>
       </div>
     </div>
   </form>
+    </p-tabPanel>
+
+    <p-tabPanel header="Aisles">
+      <div class="mb-3">
+        <p-button
+          label="Add Aisle"
+          icon="pi pi-plus"
+          (onClick)="showAddAisleDialog()"
+          size="small"
+        ></p-button>
+      </div>
+
+      <p-table
+        [value]="storeAisles"
+        [paginator]="true"
+        [rows]="5"
+        styleClass="p-datatable-sm"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Number</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Order</th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-aisle>
+          <tr>
+            <td>{{ aisle.number }}</td>
+            <td>{{ aisle.name }}</td>
+            <td>{{ aisle.description || '-' }}</td>
+            <td>{{ aisle.sequenceOrder }}</td>
+            <td>
+              <div class="flex gap-2">
+                <p-button
+                  icon="pi pi-pencil"
+                  (onClick)="showEditAisleDialog(aisle)"
+                  severity="info"
+                  size="small"
+                  [text]="true"
+                ></p-button>
+                <p-button
+                  icon="pi pi-trash"
+                  (onClick)="deleteAisle(aisle)"
+                  severity="danger"
+                  size="small"
+                  [text]="true"
+                ></p-button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="5" class="text-center">No aisles found for this store.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-tabPanel>
+
+    <p-tabPanel header="Shelves">
+      <div class="mb-3">
+        <p-button
+          label="Add Shelf"
+          icon="pi pi-plus"
+          (onClick)="showAddShelfDialog()"
+          size="small"
+          [disabled]="storeAisles.length === 0"
+        ></p-button>
+        <small class="ml-2 text-color-secondary" *ngIf="storeAisles.length === 0">
+          Please add at least one aisle before adding shelves
+        </small>
+      </div>
+
+      <p-table
+        [value]="storeShelves"
+        [paginator]="true"
+        [rows]="5"
+        styleClass="p-datatable-sm"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Code</th>
+            <th>Aisle</th>
+            <th>Level</th>
+            <th>Section</th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-shelf>
+          <tr>
+            <td>{{ shelf.code }}</td>
+            <td>{{ getAisleName(shelf.aisleId) }}</td>
+            <td>{{ shelf.level }}</td>
+            <td>{{ shelf.section }}</td>
+            <td>
+              <div class="flex gap-2">
+                <p-button
+                  icon="pi pi-pencil"
+                  (onClick)="showEditShelfDialog(shelf)"
+                  severity="info"
+                  size="small"
+                  [text]="true"
+                ></p-button>
+                <p-button
+                  icon="pi pi-trash"
+                  (onClick)="deleteShelf(shelf)"
+                  severity="danger"
+                  size="small"
+                  [text]="true"
+                ></p-button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="5" class="text-center">No shelves found for this store.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-tabPanel>
+  </p-tabView>
+
+  <ng-template #addStoreForm>
+    <form class="flex flex-column gap-3">
+      <div class="grid">
+        <div class="col-6">
+          <div class="field">
+            <label for="code">Store Code *</label>
+            <input
+              id="code"
+              type="text"
+              pInputText
+              [(ngModel)]="storeForm.code"
+              name="code"
+              class="w-full"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="field">
+            <label for="status">Status *</label>
+            <p-dropdown
+              id="status"
+              [(ngModel)]="storeForm.status"
+              [options]="storeStatusOptions"
+              name="status"
+              placeholder="Select Status"
+              styleClass="w-full"
+            ></p-dropdown>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="name">Store Name *</label>
+        <input
+          id="name"
+          type="text"
+          pInputText
+          [(ngModel)]="storeForm.name"
+          name="name"
+          class="w-full"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          pInputTextarea
+          [(ngModel)]="storeForm.description"
+          name="description"
+          rows="2"
+          class="w-full"
+        ></textarea>
+      </div>
+
+      <div class="field">
+        <label for="address">Address *</label>
+        <input
+          id="address"
+          type="text"
+          pInputText
+          [(ngModel)]="storeForm.address"
+          name="address"
+          class="w-full"
+          required
+        />
+      </div>
+
+      <div class="grid">
+        <div class="col-6">
+          <div class="field">
+            <label for="city">City</label>
+            <input
+              id="city"
+              type="text"
+              pInputText
+              [(ngModel)]="storeForm.city"
+              name="city"
+              class="w-full"
+            />
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="field">
+            <label for="state">State</label>
+            <input
+              id="state"
+              type="text"
+              pInputText
+              [(ngModel)]="storeForm.state"
+              name="state"
+              class="w-full"
+            />
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="field">
+            <label for="zipCode">Zip Code</label>
+            <input
+              id="zipCode"
+              type="text"
+              pInputText
+              [(ngModel)]="storeForm.zipCode"
+              name="zipCode"
+              class="w-full"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-6">
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input
+              id="phone"
+              type="tel"
+              pInputText
+              [(ngModel)]="storeForm.phone"
+              name="phone"
+              class="w-full"
+            />
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="field">
+            <label for="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              pInputText
+              [(ngModel)]="storeForm.email"
+              name="email"
+              class="w-full"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="managerName">Manager Name</label>
+        <input
+          id="managerName"
+          type="text"
+          pInputText
+          [(ngModel)]="storeForm.managerName"
+          name="managerName"
+          class="w-full"
+        />
+      </div>
+
+      <div class="field">
+        <label class="block mb-2 font-semibold">Service Options</label>
+        <div class="flex flex-column gap-2">
+          <div>
+            <p-checkbox
+              [(ngModel)]="storeForm.deliveryEnabled"
+              name="deliveryEnabled"
+              [binary]="true"
+              label="Delivery Enabled"
+            ></p-checkbox>
+            <small class="block ml-4 text-color-secondary">When checked, this store will offer delivery services to customers</small>
+          </div>
+          <div>
+            <p-checkbox
+              [(ngModel)]="storeForm.pickupEnabled"
+              name="pickupEnabled"
+              [binary]="true"
+              label="Pickup Enabled"
+            ></p-checkbox>
+            <small class="block ml-4 text-color-secondary">When checked, this store will allow customers to place orders for pickup</small>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
 
   <ng-template pTemplate="footer">
     <p-button
@@ -272,6 +584,183 @@
       label="Save"
       icon="pi pi-check"
       (onClick)="saveStore()"
+    ></p-button>
+  </ng-template>
+</p-dialog>
+
+<!-- Aisle Dialog -->
+<p-dialog
+  [(visible)]="displayAisleDialog"
+  [header]="isEditAisleMode ? 'Edit Aisle' : 'Add Aisle'"
+  [modal]="true"
+  [style]="{ width: '40vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form class="flex flex-column gap-3">
+    <div class="grid">
+      <div class="col-6">
+        <div class="field">
+          <label for="aisleNumber">Aisle Number *</label>
+          <input
+            id="aisleNumber"
+            type="text"
+            pInputText
+            [(ngModel)]="aisleForm.number"
+            name="aisleNumber"
+            class="w-full"
+            required
+            placeholder="e.g., A1"
+          />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="field">
+          <label for="aisleOrder">Display Order *</label>
+          <p-inputNumber
+            id="aisleOrder"
+            [(ngModel)]="aisleForm.sequenceOrder"
+            name="aisleOrder"
+            [min]="1"
+            class="w-full"
+            required
+          ></p-inputNumber>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="aisleName">Aisle Name *</label>
+      <input
+        id="aisleName"
+        type="text"
+        pInputText
+        [(ngModel)]="aisleForm.name"
+        name="aisleName"
+        class="w-full"
+        required
+        placeholder="e.g., Fresh Produce"
+      />
+    </div>
+
+    <div class="field">
+      <label for="aisleDescription">Description</label>
+      <textarea
+        id="aisleDescription"
+        pInputTextarea
+        [(ngModel)]="aisleForm.description"
+        name="aisleDescription"
+        rows="3"
+        class="w-full"
+        placeholder="Optional description"
+      ></textarea>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      (onClick)="hideAisleDialog()"
+      severity="secondary"
+    ></p-button>
+    <p-button
+      label="Save"
+      icon="pi pi-check"
+      (onClick)="saveAisle()"
+    ></p-button>
+  </ng-template>
+</p-dialog>
+
+<!-- Shelf Dialog -->
+<p-dialog
+  [(visible)]="displayShelfDialog"
+  [header]="isEditShelfMode ? 'Edit Shelf' : 'Add Shelf'"
+  [modal]="true"
+  [style]="{ width: '40vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form class="flex flex-column gap-3">
+    <div class="field">
+      <label for="shelfAisle">Aisle *</label>
+      <p-dropdown
+        id="shelfAisle"
+        [(ngModel)]="shelfForm.aisleId"
+        [options]="storeAisles"
+        optionLabel="name"
+        optionValue="id"
+        name="shelfAisle"
+        placeholder="Select Aisle"
+        styleClass="w-full"
+        [disabled]="isEditShelfMode"
+      >
+        <ng-template let-aisle pTemplate="item">
+          {{ aisle.number }} - {{ aisle.name }}
+        </ng-template>
+        <ng-template let-aisle pTemplate="selectedItem">
+          {{ aisle?.number }} - {{ aisle?.name }}
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <div class="field">
+      <label for="shelfCode">Shelf Code *</label>
+      <input
+        id="shelfCode"
+        type="text"
+        pInputText
+        [(ngModel)]="shelfForm.code"
+        name="shelfCode"
+        class="w-full"
+        required
+        placeholder="e.g., A1-L2-S3"
+      />
+    </div>
+
+    <div class="grid">
+      <div class="col-6">
+        <div class="field">
+          <label for="shelfLevel">Level *</label>
+          <p-inputNumber
+            id="shelfLevel"
+            [(ngModel)]="shelfForm.level"
+            name="shelfLevel"
+            [min]="1"
+            [max]="10"
+            class="w-full"
+            required
+          ></p-inputNumber>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="field">
+          <label for="shelfSection">Section *</label>
+          <p-inputNumber
+            id="shelfSection"
+            [(ngModel)]="shelfForm.section"
+            name="shelfSection"
+            [min]="1"
+            [max]="20"
+            class="w-full"
+            required
+          ></p-inputNumber>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      (onClick)="hideShelfDialog()"
+      severity="secondary"
+    ></p-button>
+    <p-button
+      label="Save"
+      icon="pi pi-check"
+      (onClick)="saveShelf()"
     ></p-button>
   </ng-template>
 </p-dialog>

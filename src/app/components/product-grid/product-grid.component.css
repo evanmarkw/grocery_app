@@ -50,6 +50,51 @@
   justify-content: center;
 }
 
+/* Aisle and Shelf Sections */
+.aisle-sections {
+  margin-top: 2rem;
+}
+
+.aisle-section {
+  margin-bottom: 3rem;
+}
+
+.aisle-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #2c3e50;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.aisle-title {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.shelf-section {
+  margin-bottom: 2rem;
+}
+
+.shelf-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0 1rem 1rem;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.shelf-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  flex: 1;
+}
+
 .category-sections {
   margin-top: 2rem;
 }

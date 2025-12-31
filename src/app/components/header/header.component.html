@@ -20,6 +20,20 @@
 
   <ng-template pTemplate="end">
     <div class="user-actions">
+      <!-- Cart Button -->
+      <div class="cart-button-container">
+        <p-button
+          icon="pi pi-shopping-cart"
+          (onClick)="goToCart()"
+          [outlined]="true"
+          severity="info"
+          [badge]="getCartItemCount() > 0 ? getCartItemCount().toString() : ''"
+          badgeSeverity="danger"
+          pTooltip="View Cart"
+          tooltipPosition="bottom">
+        </p-button>
+      </div>
+
       <div *ngIf="isAuthenticated()" class="user-info">
         <p-avatar
           [label]="getUserInitials()"

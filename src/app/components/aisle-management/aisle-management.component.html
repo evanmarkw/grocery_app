@@ -1,0 +1,171 @@
+<div class="min-h-screen">
+  <p-toolbar>
+    <ng-template pTemplate="start">
+      <div class="flex align-items-center gap-2">
+        <p-button
+          icon="pi pi-arrow-left"
+          (onClick)="goBack()"
+          [text]="true"
+        ></p-button>
+        <span class="text-xl font-bold">Aisle Management</span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="end">
+      <p-button
+        label="Add Aisle"
+        icon="pi pi-plus"
+        (onClick)="showAddDialog()"
+      ></p-button>
+    </ng-template>
+  </p-toolbar>
+
+  <div class="p-4">
+    <p-table
+      [value]="aisles"
+      [loading]="loading"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} aisles"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      styleClass="p-datatable-striped"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Number</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Order</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-aisle>
+        <tr>
+          <td>{{ aisle.number }}</td>
+          <td>{{ aisle.name }}</td>
+          <td>{{ aisle.description || '-' }}</td>
+          <td>{{ aisle.sequenceOrder }}</td>
+          <td>
+            <div class="flex gap-2">
+              <p-button
+                label="Edit"
+                icon="pi pi-pencil"
+                (onClick)="showEditDialog(aisle)"
+                severity="info"
+                size="small"
+              ></p-button>
+              <p-button
+                label="Delete"
+                icon="pi pi-trash"
+                (onClick)="deleteAisle(aisle)"
+                severity="danger"
+                size="small"
+              ></p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5" class="text-center">No aisles found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="displayDialog"
+  [header]="isEditMode ? 'Edit Aisle' : 'Add Aisle'"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form class="flex flex-column gap-3">
+    <div class="field">
+      <label for="storeId">Store *</label>
+      <p-dropdown
+        id="storeId"
+        [(ngModel)]="aisleForm.storeId"
+        [options]="stores"
+        name="storeId"
+        placeholder="Select Store"
+        styleClass="w-full"
+        [disabled]="isEditMode"
+      ></p-dropdown>
+    </div>
+
+    <div class="grid">
+      <div class="col-6">
+        <div class="field">
+          <label for="number">Aisle Number *</label>
+          <input
+            id="number"
+            type="text"
+            pInputText
+            [(ngModel)]="aisleForm.number"
+            name="number"
+            class="w-full"
+            required
+            placeholder="e.g., A1"
+          />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="field">
+          <label for="sequenceOrder">Display Order *</label>
+          <p-inputNumber
+            id="sequenceOrder"
+            [(ngModel)]="aisleForm.sequenceOrder"
+            name="sequenceOrder"
+            [min]="1"
+            class="w-full"
+            required
+          ></p-inputNumber>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="name">Aisle Name *</label>
+      <input
+        id="name"
+        type="text"
+        pInputText
+        [(ngModel)]="aisleForm.name"
+        name="name"
+        class="w-full"
+        required
+        placeholder="e.g., Fresh Produce"
+      />
+    </div>
+
+    <div class="field">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        pInputTextarea
+        [(ngModel)]="aisleForm.description"
+        name="description"
+        rows="3"
+        class="w-full"
+        placeholder="Optional description of what's in this aisle"
+      ></textarea>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      (onClick)="hideDialog()"
+      severity="secondary"
+    ></p-button>
+    <p-button
+      label="Save"
+      icon="pi pi-check"
+      (onClick)="saveAisle()"
+    ></p-button>
+  </ng-template>
+</p-dialog>

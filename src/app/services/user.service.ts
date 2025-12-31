@@ -25,26 +25,28 @@ export class UserService {
     return this.http.get<User>(`${this.apiUrl}/${id}`, { headers });
   }
 
-  updateUserRole(userId: number, role: UserRole): Observable<User> {
+  createUser(user: User): Observable<User> {
     const headers = this.authService.getAuthHeaders();
-    return this.http.patch<User>(
-      `${this.apiUrl}/${userId}/role`,
-      { role },
-      { headers }
-    );
+    return this.http.post<User>(this.apiUrl, user, { headers });
   }
 
-  toggleUserStatus(userId: number, active: boolean): Observable<User> {
+  updateUser(id: number, user: User): Observable<User> {
     const headers = this.authService.getAuthHeaders();
-    return this.http.patch<User>(
-      `${this.apiUrl}/${userId}/status`,
-      { active },
-      { headers }
-    );
+    return this.http.put<User>(`${this.apiUrl}/${id}`, user, { headers });
   }
 
   deleteUser(userId: number): Observable<any> {
     const headers = this.authService.getAuthHeaders();
     return this.http.delete(`${this.apiUrl}/${userId}`, { headers });
+  }
+
+  getActiveUsers(): Observable<User[]> {
+    const headers = this.authService.getAuthHeaders();
+    return this.http.get<User[]>(`${this.apiUrl}/active`, { headers });
+  }
+
+  getUsersByRole(role: UserRole): Observable<User[]> {
+    const headers = this.authService.getAuthHeaders();
+    return this.http.get<User[]>(`${this.apiUrl}/role/${role}`, { headers });
   }
 }

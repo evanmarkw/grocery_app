@@ -44,6 +44,11 @@
   gap: 1rem;
 }
 
+.cart-button-container {
+  display: flex;
+  align-items: center;
+}
+
 .user-info {
   display: flex;
   align-items: center;
