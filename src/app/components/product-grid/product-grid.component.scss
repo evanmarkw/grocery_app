@@ -79,9 +79,13 @@
     }
   }
 
-  ::ng-deep .p-message {
+  .message-container {
     margin: 2rem auto;
     max-width: 600px;
+
+    ::ng-deep .p-message {
+      margin: 0;
+    }
   }
 
   .category-sections {

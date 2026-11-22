@@ -244,3 +244,121 @@ router-outlet + * {
   margin: 0 auto;
   display: block;
 }
+
+// Enhanced PrimeNG button styles
+.p-button {
+  transition: all 0.3s ease;
+  font-weight: 600;
+
+  &.p-button-success {
+    background: #4caf50;
+    border-color: #4caf50;
+
+    &:hover:enabled {
+      background: #388e3c;
+      border-color: #388e3c;
+    }
+  }
+
+  &.p-button-danger {
+    background: #f44336;
+    border-color: #f44336;
+
+    &:hover:enabled {
+      background: #d32f2f;
+      border-color: #d32f2f;
+    }
+  }
+
+  &.p-button-warning {
+    background: #ff9800;
+    border-color: #ff9800;
+
+    &:hover:enabled {
+      background: #f57c00;
+      border-color: #f57c00;
+    }
+  }
+
+  &.p-button-info {
+    background: #2196f3;
+    border-color: #2196f3;
+
+    &:hover:enabled {
+      background: #1976d2;
+      border-color: #1976d2;
+    }
+  }
+
+  &.p-button-outlined {
+    background: transparent;
+
+    &:hover:enabled {
+      background: rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  &.p-button-text {
+    background: transparent;
+    border-color: transparent;
+
+    &:hover:enabled {
+      background: rgba(0, 0, 0, 0.04);
+      border-color: transparent;
+    }
+  }
+}
+
+// Enhanced Tag styles
+.p-tag {
+  font-weight: 600;
+
+  &.p-tag-success {
+    background: #4caf50;
+  }
+
+  &.p-tag-info {
+    background: #2196f3;
+  }
+
+  &.p-tag-warning {
+    background: #ff9800;
+  }
+
+  &.p-tag-danger {
+    background: #f44336;
+  }
+}
+
+// Enhanced input styles
+.p-inputtext,
+.p-dropdown {
+  transition: all 0.3s ease;
+
+  &:enabled:focus {
+    border-color: #d32f2f;
+    box-shadow: 0 0 0 0.2rem rgba(211, 47, 47, 0.1);
+  }
+}
+
+// Smooth transitions
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+
+// Override for specific elements that shouldn't transition
+button, a, input, select, textarea {
+  transition-property: background-color, border-color, box-shadow, transform;
+}
+
+// Card hover effects
+.p-card {
+  transition: all 0.3s ease;
+}
+
+// Scroll behavior
+html {
+  scroll-behavior: smooth;
+}

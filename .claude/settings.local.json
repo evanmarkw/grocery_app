@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm view:*)",
+      "Bash(ng generate component:*)",
+      "Bash(ng generate service:*)",
+      "Bash(node:*)",
+      "Bash(ng build:*)",
+      "WebFetch(domain:168asianmart.com)",
+      "Bash(npm run build:*)",
+      "WebSearch",
+      "WebFetch(domain:primeng.org)",
+      "Bash(ng serve:*)",
+      "Bash(npx tsc:*)",
+      "Bash(cat:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -27,17 +27,13 @@
     </div>
 
     <!-- No results messages -->
-    <p-message
-      *ngIf="!loading && filteredProducts.length === 0 && searchTerm"
-      severity="info"
-      [text]="'No products found matching \"' + searchTerm + '\"'">
-    </p-message>
+    <div *ngIf="!loading && filteredProducts.length === 0 && searchTerm" class="message-container">
+      <p-message severity="info" text="No products found matching your search"></p-message>
+    </div>
 
-    <p-message
-      *ngIf="!loading && allProducts.length === 0 && !searchTerm"
-      severity="warn"
-      [text]="'No products available.'">
-    </p-message>
+    <div *ngIf="!loading && allProducts.length === 0 && !searchTerm" class="message-container">
+      <p-message severity="warn" text="No products available"></p-message>
+    </div>
 
     <!-- Product sections organized by category -->
     <div *ngIf="!loading && filteredProducts.length > 0" class="category-sections">
